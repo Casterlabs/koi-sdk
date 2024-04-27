@@ -13,52 +13,30 @@ import lombok.ToString;
 @NoArgsConstructor
 @JsonClass(exposeAll = true)
 public class User extends SimpleProfile {
-    private List<UserRoles> roles;
+    public List<UserRoles> roles;
 
-    private List<String> badges;
+    public List<String> badges;
 
-    private String color;
+    public String color;
 
-    private String username;
+    public String username;
 
-    private String displayname;
+    public String displayname;
 
-    private Pronouns pronouns = Pronouns.UNKNOWN;
+    public Pronouns pronouns = Pronouns.UNKNOWN;
 
-    private String bio;
+    public String bio;
 
-    private String link;
+    public String link;
 
     @JsonField("image_link")
-    private String imageLink;
+    public String imageLink;
 
     @JsonField("followers_count")
-    private long followersCount = -1;
+    public long followersCount = -1;
 
     @JsonField("subscriber_count")
-    private long subCount = -1;
-
-    public User(
-        String id, String channelId, UserPlatform platform,
-        List<UserRoles> roles, List<String> badges,
-        String color, String username, String displayname, String bio, String link, String imageLink,
-        int followersCount, int subCount
-    ) {
-        this.id = id;
-        this.channelId = channelId;
-        this.platform = platform;
-        this.UPID = this.id + ';' + this.platform.name();
-        this.roles = roles;
-        this.badges = badges;
-        this.color = color;
-        this.username = username;
-        this.displayname = displayname;
-        this.bio = bio;
-        this.link = link;
-        this.imageLink = imageLink;
-        this.followersCount = followersCount;
-        this.subCount = subCount;
-    }
+    public long subCount = -1;
 
     public static enum UserRoles {
         BROADCASTER,

@@ -9,20 +9,19 @@ import co.casterlabs.rakurai.json.element.JsonElement;
 import co.casterlabs.rakurai.json.serialization.JsonParseException;
 import co.casterlabs.rakurai.json.validation.JsonValidationException;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
 
-@Getter
-@ToString
+@NoArgsConstructor
 @JsonClass(exposeAll = true)
 @EqualsAndHashCode(callSuper = true)
 public class UserUpdateEvent extends KoiEvent {
-    private User streamer;
+    public User streamer;
 
     // Intercept the deserialization.
     @JsonDeserializationMethod("streamer")
     private void $deserialize_streamer(JsonElement e) throws JsonValidationException, JsonParseException {
         this.streamer = Rson.DEFAULT.fromJson(e, User.class);
+        super.streamer = this.streamer;
     }
 
     @JsonSerializationMethod("streamer")

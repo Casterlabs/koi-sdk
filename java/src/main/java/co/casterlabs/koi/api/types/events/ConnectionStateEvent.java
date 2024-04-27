@@ -4,15 +4,13 @@ import java.util.Map;
 
 import co.casterlabs.rakurai.json.annotating.JsonClass;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
 
-@Getter
-@ToString
+@NoArgsConstructor
 @JsonClass(exposeAll = true)
 @EqualsAndHashCode(callSuper = true)
 public class ConnectionStateEvent extends KoiEvent {
-    private Map<String, ConnectionState> states;
+    public Map<String, ConnectionState> states;
 
     @Override
     public KoiEventType getType() {

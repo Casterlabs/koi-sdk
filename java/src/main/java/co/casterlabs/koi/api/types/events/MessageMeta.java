@@ -5,34 +5,21 @@ import java.util.Set;
 
 import co.casterlabs.rakurai.json.annotating.JsonClass;
 import co.casterlabs.rakurai.json.annotating.JsonField;
-import co.casterlabs.rakurai.json.annotating.JsonSerializationMethod;
-import co.casterlabs.rakurai.json.element.JsonBoolean;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
+@NoArgsConstructor
 @JsonClass(exposeAll = true)
+@EqualsAndHashCode(callSuper = true)
 public abstract class MessageMeta extends KoiEvent {
-
     @JsonField("is_visible")
-    private @Setter boolean visible = true;
+    public @Setter boolean visible = true;
 
-    private @Setter int upvotes = 0;
+    public @Setter int upvotes = 0;
 
-    private @Getter Set<MessageAttribute> attributes = new HashSet<>();
-
-    @JsonSerializationMethod("is_highlighted")
-    private JsonBoolean $serialize_is_highlighted() {
-        return new JsonBoolean(this.attributes.contains(MessageAttribute.HIGHLIGHTED));
-    }
-
-    /**
-     * Use {@link #getAttributes()}.contains(MessageAttribute.HIGHLIGHTED).
-     */
-    @Deprecated
-    public boolean isHighlighted() {
-        return this.attributes.contains(MessageAttribute.HIGHLIGHTED);
-    }
+    public @Getter Set<MessageAttribute> attributes = new HashSet<>();
 
     public void apply(MessageMeta other) {
         other.visible = this.visible;

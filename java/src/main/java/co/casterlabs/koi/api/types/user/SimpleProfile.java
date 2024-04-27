@@ -9,17 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonClass(exposeAll = true)
 public class SimpleProfile {
-    protected String UPID;
-    protected String id;
-    protected @JsonField("channel_id") String channelId;
-    protected UserPlatform platform;
-
-    public SimpleProfile(String id, String channelId, UserPlatform platform) {
-        this.id = id;
-        this.channelId = channelId;
-        this.platform = platform;
-        this.UPID = this.id + ';' + this.platform.name();
-    }
+    public String UPID;
+    public String id;
+    public @JsonField("channel_id") String channelId;
+    public UserPlatform platform;
 
     public int tryGetIdAsInt() {
         return Integer.parseInt(this.id);
@@ -27,11 +20,6 @@ public class SimpleProfile {
 
     public int tryGetChannelIdAsInt() {
         return Integer.parseInt(this.channelId);
-    }
-
-    @Override
-    public SimpleProfile clone() {
-        return new SimpleProfile(this.id, this.channelId, this.platform);
     }
 
 }

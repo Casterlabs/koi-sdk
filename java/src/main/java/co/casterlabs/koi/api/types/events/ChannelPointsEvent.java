@@ -7,18 +7,18 @@ import co.casterlabs.rakurai.json.annotating.JsonClass;
 import co.casterlabs.rakurai.json.annotating.JsonField;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Getter
-@ToString
+@NoArgsConstructor
 @JsonClass(exposeAll = true)
 @EqualsAndHashCode(callSuper = true)
 public class ChannelPointsEvent extends KoiEvent {
-    private User sender;
-    private ChannelPointsReward reward;
-    private RedemptionStatus status;
-    private String id;
-    private String message;
+    public User sender;
+    public ChannelPointsReward reward;
+    public RedemptionStatus status;
+    public String id;
+    public String message;
 
     @Override
     public KoiEventType getType() {
@@ -37,52 +37,48 @@ public class ChannelPointsEvent extends KoiEvent {
     public static class ChannelPointsReward {
 
         @JsonField("background_color")
-        private String backgroundColor;
+        public String backgroundColor;
 
-        private String id;
+        public String id;
 
         @JsonField("cooldown_expires_at")
-        private String cooldownExpiresAt;
+        public Instant cooldownExpiresAt;
 
-        public Instant getCooldownExpiresAt() {
-            return Instant.parse(this.cooldownExpiresAt);
-        }
+        public String title;
 
-        private String title;
+        public String prompt;
 
-        private String prompt;
-
-        private int cost;
+        public int cost;
 
         @JsonField("is_enabled")
-        private boolean enabled;
+        public boolean enabled;
 
         @JsonField("is_in_stock")
-        private boolean inStock;
+        public boolean inStock;
 
         @JsonField("is_paused")
-        private boolean paused;
+        public boolean paused;
 
         @JsonField("is_sub_only")
-        private boolean subOnly;
+        public boolean subOnly;
 
         @JsonField("is_user_input_required")
-        private boolean userInputRequired;
+        public boolean userInputRequired;
 
         @JsonField("reward_image")
-        private String rewardImage;
+        public String rewardImage;
 
         @JsonField("default_reward_image")
-        private String defaultRewardImage;
+        public String defaultRewardImage;
 
         @JsonField("max_per_stream")
-        private ChannelPointsMaxPerStream maxPerStream;
+        public ChannelPointsMaxPerStream maxPerStream;
 
         @JsonField("max_per_user_per_stream")
-        private ChannelPointsMaxPerUserPerStream maxPerUserPerStream;
+        public ChannelPointsMaxPerUserPerStream maxPerUserPerStream;
 
         @JsonField("global_cooldown")
-        private ChannelPointsCooldown globalCooldown;
+        public ChannelPointsCooldown globalCooldown;
 
     }
 
@@ -93,10 +89,10 @@ public class ChannelPointsEvent extends KoiEvent {
     public static class ChannelPointsMaxPerStream {
 
         @JsonField("is_enabled")
-        private boolean enabled;
+        public boolean enabled;
 
         @JsonField("max_per_stream")
-        private int max;
+        public int max;
 
     }
 
@@ -107,10 +103,10 @@ public class ChannelPointsEvent extends KoiEvent {
     public static class ChannelPointsMaxPerUserPerStream {
 
         @JsonField("is_enabled")
-        private boolean enabled;
+        public boolean enabled;
 
         @JsonField("max_per_user_per_stream")
-        private int max;
+        public int max;
 
     }
 
@@ -121,10 +117,10 @@ public class ChannelPointsEvent extends KoiEvent {
     public static class ChannelPointsCooldown {
 
         @JsonField("is_enabled")
-        private boolean enabled;
+        public boolean enabled;
 
         @JsonField("global_cooldown_seconds")
-        private int globalCooldownSeconds;
+        public int globalCooldownSeconds;
 
     }
 

@@ -4,23 +4,19 @@ import org.jetbrains.annotations.Nullable;
 
 import co.casterlabs.rakurai.json.annotating.JsonClass;
 import co.casterlabs.rakurai.json.element.JsonElement;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @JsonClass(exposeAll = true)
+@EqualsAndHashCode()
 public class Attachment {
-    private Attachment.AttachmentType type;
-    private JsonElement content;
-    private String html;
-    private @Nullable Donation donation;
+    public Attachment.AttachmentType type;
+    public JsonElement content;
+    public String html;
+    public @Nullable Donation donation;
 
     public static enum AttachmentType {
-        @Deprecated
-        GIF,
         IMAGE,
         INTERACTIVE;
     }

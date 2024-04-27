@@ -1,19 +1,15 @@
 package co.casterlabs.koi.api.types.events.rich;
 
 import co.casterlabs.rakurai.json.annotating.JsonClass;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
-@Getter
-@ToString
 @NoArgsConstructor
-@AllArgsConstructor
 @JsonClass(exposeAll = true)
+@EqualsAndHashCode()
 public class ExternalEmote {
-    private String name;
-    private String imageLink;
-    private String from;
+    public String name;
+    public String imageLink;
+    public String from;
 
 }

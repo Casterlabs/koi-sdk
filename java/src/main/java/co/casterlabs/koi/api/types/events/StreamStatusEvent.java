@@ -6,55 +6,32 @@ import java.util.List;
 import co.casterlabs.koi.api.types.stream.KoiStreamContentRating;
 import co.casterlabs.koi.api.types.stream.KoiStreamLanguage;
 import co.casterlabs.rakurai.json.annotating.JsonClass;
-import co.casterlabs.rakurai.json.annotating.JsonDeserializationMethod;
 import co.casterlabs.rakurai.json.annotating.JsonField;
-import co.casterlabs.rakurai.json.annotating.JsonSerializationMethod;
-import co.casterlabs.rakurai.json.element.JsonElement;
-import co.casterlabs.rakurai.json.element.JsonNull;
-import co.casterlabs.rakurai.json.element.JsonString;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
 
-@Getter
-@ToString
+@NoArgsConstructor
 @JsonClass(exposeAll = true)
 @EqualsAndHashCode(callSuper = true)
 public class StreamStatusEvent extends KoiEvent {
     @JsonField("is_live")
-    private boolean live;
+    public boolean live;
 
-    private String title;
+    public String title;
 
-    private Instant startTime;
+    public Instant startTime;
 
-    private List<String> tags;
+    public List<String> tags;
 
-    private String category;
+    public String category;
 
     @JsonField("content_rating")
-    private KoiStreamContentRating contentRating;
+    public KoiStreamContentRating contentRating;
 
     @JsonField("thumbnail_url")
-    private String thumbnailUrl;
+    public String thumbnailUrl;
 
-    private KoiStreamLanguage language;
-
-    @JsonDeserializationMethod("start_time")
-    private void $deserialize_start_time(JsonElement e) {
-        if (e.isJsonString()) {
-            this.startTime = Instant.parse(e.getAsString());
-        }
-    }
-
-    @JsonSerializationMethod("start_time")
-    private JsonElement $serialize_start_time() {
-        if (this.startTime == null) {
-            return JsonNull.INSTANCE;
-        } else {
-            return new JsonString(this.startTime.toString());
-        }
-    }
+    public KoiStreamLanguage language;
 
     @Override
     public KoiEventType getType() {
