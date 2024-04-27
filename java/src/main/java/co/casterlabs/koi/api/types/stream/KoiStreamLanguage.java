@@ -1,4 +1,4 @@
-package co.casterlabs.koi.api.stream;
+package co.casterlabs.koi.api.types.stream;
 
 import java.util.Collections;
 import java.util.HashMap;

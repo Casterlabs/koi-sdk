@@ -3,8 +3,8 @@ package co.casterlabs.koi.api.types.events;
 import java.time.Instant;
 import java.util.List;
 
-import co.casterlabs.koi.api.stream.KoiStreamContentRating;
-import co.casterlabs.koi.api.stream.KoiStreamLanguage;
+import co.casterlabs.koi.api.types.stream.KoiStreamContentRating;
+import co.casterlabs.koi.api.types.stream.KoiStreamLanguage;
 import co.casterlabs.rakurai.json.annotating.JsonClass;
 import co.casterlabs.rakurai.json.annotating.JsonDeserializationMethod;
 import co.casterlabs.rakurai.json.annotating.JsonField;
