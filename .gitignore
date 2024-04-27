@@ -1,0 +1,23 @@
+# Common
+dist/
+.DS_Store
+.env
+.env.*
+!.env.example
+
+# IntelliJ
+*.iml
+.idea/
+
+# VSCode
+.vscode
+/.apt_generated/
+/.apt_generated_tests/
+
+# Eclipse
+.settings/
+.project
+.classpath
+.metadata/
+
+# Misc
