@@ -3,6 +3,7 @@ package co.casterlabs.koi.api;
 import java.io.Closeable;
 import java.io.IOException;
 import java.net.URI;
+import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -15,9 +16,11 @@ import co.casterlabs.koi.api.listener.KoiLifeCycleHandler;
 import co.casterlabs.koi.api.types.events.KoiEvent;
 import co.casterlabs.koi.api.types.events.KoiEventType;
 import co.casterlabs.rakurai.json.Rson;
+import co.casterlabs.rakurai.json.TypeResolver;
 import co.casterlabs.rakurai.json.TypeToken;
 import co.casterlabs.rakurai.json.element.JsonElement;
 import co.casterlabs.rakurai.json.element.JsonObject;
+import co.casterlabs.rakurai.json.element.JsonString;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.SneakyThrows;
@@ -25,6 +28,20 @@ import xyz.e3ndr.fastloggingframework.logging.FastLogger;
 
 public class KoiConnection implements Closeable {
     public static final String KOI_URL = "wss://api.casterlabs.co/v2/koi";
+    public static final Rson RSON = new Rson.Builder()
+        .registerTypeResolver(new TypeResolver<Instant>() {
+            @Override
+            public @Nullable Instant resolve(@NonNull JsonElement value, @NonNull Class<?> type) {
+                return Instant.parse(value.getAsString());
+            }
+
+            @Override
+            public @Nullable JsonElement writeOut(@NonNull Instant value, @NonNull Class<?> type) {
+                return new JsonString(value.toString());
+            }
+        }, Instant.class)
+        .build();
+
     private static int idx = 0;
 
     private KoiLifeCycleHandler listener;
@@ -157,7 +174,7 @@ public class KoiConnection implements Closeable {
             logger.debug("\u2193 " + raw);
 
             try {
-                JsonObject packet = Rson.DEFAULT.fromJson(raw, JsonObject.class);
+                JsonObject packet = KoiConnection.RSON.fromJson(raw, JsonObject.class);
 
                 switch (packet.getString("type")) {
                     case "WELCOME": {

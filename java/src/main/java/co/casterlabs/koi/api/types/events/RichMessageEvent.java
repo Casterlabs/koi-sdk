@@ -3,6 +3,7 @@ package co.casterlabs.koi.api.types.events;
 import java.util.LinkedList;
 import java.util.List;
 
+import co.casterlabs.koi.api.KoiConnection;
 import co.casterlabs.koi.api.types.events.rich.Attachment;
 import co.casterlabs.koi.api.types.events.rich.ChatFragment;
 import co.casterlabs.koi.api.types.events.rich.ChatFragment.FragmentType;
@@ -89,7 +90,7 @@ public class RichMessageEvent extends MessageMeta {
 
             assert fragmentClass != null : "Unrecognized ChatFragment type: " + obj.getString("type");
 
-            this.fragments.add(Rson.DEFAULT.fromJson(fragment, fragmentClass));
+            this.fragments.add(KoiConnection.RSON.fromJson(fragment, fragmentClass));
         }
     }
 
