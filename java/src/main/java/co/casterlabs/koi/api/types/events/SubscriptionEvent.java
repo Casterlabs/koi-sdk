@@ -4,44 +4,40 @@ import co.casterlabs.koi.api.types.user.User;
 import co.casterlabs.rakurai.json.annotating.JsonClass;
 import co.casterlabs.rakurai.json.annotating.JsonField;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
+@Getter
+@SuperBuilder
 @NoArgsConstructor
 @JsonClass(exposeAll = true)
 @EqualsAndHashCode(callSuper = true)
 public class SubscriptionEvent extends KoiEvent {
-    public User subscriber;
+    private User subscriber;
 
     @JsonField("gift_recipient")
     public User giftRecipient;
-
-    /**
-     * @deprecated This value has been superseded by {@link #monthsPurchased} and
-     *             {@link #monthsStreak}. This will always have a value of 1 until
-     *             it's removal.
-     */
-    @Deprecated
-    public int months = 1;
 
     /**
      * Note that this is unknowable on some platforms, like TikTok. In that case, it
      * will always be 1.
      */
     @JsonField("months_purchased")
-    public int monthsPurchased;
+    private int monthsPurchased;
 
     /**
      * Note that this is unknowable on some platforms, like TikTok. In that case, it
      * will always be 1.
      */
     @JsonField("months_streak")
-    public int monthsStreak;
+    private int monthsStreak;
 
     @JsonField("sub_type")
-    public SubscriptionType subType;
+    private SubscriptionType subType;
 
     @JsonField("sub_level")
-    public SubscriptionLevel subLevel;
+    private SubscriptionLevel subLevel;
 
     @Override
     public KoiEventType getType() {

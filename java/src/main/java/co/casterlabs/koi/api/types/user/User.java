@@ -4,39 +4,41 @@ import java.util.List;
 
 import co.casterlabs.rakurai.json.annotating.JsonClass;
 import co.casterlabs.rakurai.json.annotating.JsonField;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 @Getter
-@ToString
+@SuperBuilder
 @NoArgsConstructor
 @JsonClass(exposeAll = true)
+@EqualsAndHashCode(callSuper = true)
 public class User extends SimpleProfile {
-    public List<UserRoles> roles;
+    private List<UserRoles> roles;
 
-    public List<String> badges;
+    private List<String> badges;
 
-    public String color;
+    private String color;
 
-    public String username;
+    private String username;
 
-    public String displayname;
+    private String displayname;
 
-    public Pronouns pronouns = Pronouns.UNKNOWN;
+    private Pronouns pronouns;
 
-    public String bio;
+    private String bio;
 
-    public String link;
+    private String link;
 
     @JsonField("image_link")
-    public String imageLink;
+    private String imageLink;
 
     @JsonField("followers_count")
-    public long followersCount = -1;
+    private long followersCount;
 
     @JsonField("subscriber_count")
-    public long subCount = -1;
+    private long subCount;
 
     public static enum UserRoles {
         BROADCASTER,

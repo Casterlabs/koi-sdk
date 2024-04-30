@@ -1,6 +1,6 @@
 package co.casterlabs.koi.api.types.events;
 
-import co.casterlabs.koi.api.KoiConnection;
+import co.casterlabs.rakurai.json.Rson;
 import co.casterlabs.rakurai.json.element.JsonObject;
 import lombok.AllArgsConstructor;
 import xyz.e3ndr.fastloggingframework.logging.FastLogger;
@@ -49,7 +49,7 @@ public enum KoiEventType {
             KoiEventType type = KoiEventType.valueOf(eventType);
             if (type.eventClass == null) return null;
 
-            KoiEvent event = KoiConnection.RSON.fromJson(eventJson, type.eventClass);
+            KoiEvent event = Rson.DEFAULT.fromJson(eventJson, type.eventClass);
             return event;
         } catch (IllegalArgumentException e) {
             // 1.1) Lookup failed, so we don't actually have that event.

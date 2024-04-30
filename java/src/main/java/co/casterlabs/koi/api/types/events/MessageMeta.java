@@ -9,17 +9,20 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
+@Getter
+@SuperBuilder
 @NoArgsConstructor
 @JsonClass(exposeAll = true)
 @EqualsAndHashCode(callSuper = true)
 public abstract class MessageMeta extends KoiEvent {
     @JsonField("is_visible")
-    public @Setter boolean visible = true;
+    private @Setter boolean visible = true;
 
-    public @Setter int upvotes = 0;
+    private @Setter int upvotes = 0;
 
-    public @Getter Set<MessageAttribute> attributes = new HashSet<>();
+    private @Getter Set<MessageAttribute> attributes = new HashSet<>();
 
     public void apply(MessageMeta other) {
         other.visible = this.visible;

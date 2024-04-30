@@ -1,9 +1,9 @@
 package co.casterlabs.koi.api.types.events;
 
-import java.util.LinkedList;
 import java.util.List;
 
-import co.casterlabs.koi.api.KoiConnection;
+import org.jetbrains.annotations.Nullable;
+
 import co.casterlabs.koi.api.types.events.rich.Attachment;
 import co.casterlabs.koi.api.types.events.rich.ChatFragment;
 import co.casterlabs.koi.api.types.events.rich.ChatFragment.FragmentType;
@@ -25,44 +25,49 @@ import co.casterlabs.rakurai.json.element.JsonObject;
 import co.casterlabs.rakurai.json.serialization.JsonParseException;
 import co.casterlabs.rakurai.json.validation.JsonValidationException;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
+@Getter
+@SuperBuilder
 @NoArgsConstructor
 @JsonClass(exposeAll = true)
 @EqualsAndHashCode(callSuper = true)
 public class RichMessageEvent extends MessageMeta {
-    public User sender;
+    private User sender;
 
-    public @JsonExclude List<ChatFragment> fragments = new LinkedList<>();
-    public List<Donation> donations = new LinkedList<>();
-    public List<Attachment> attachments = new LinkedList<>();
-    public String raw;
-    public String html;
+    private @JsonExclude List<ChatFragment> fragments;
+    private List<Donation> donations;
+    private List<Attachment> attachments;
+    private String raw;
+    private String html;
 
-    public String id;
+    private String id;
     @JsonField("meta_id")
-    public String metaId;
+    private String metaId;
 
+    @Nullable
     @JsonField("reply_target")
-    public String replyTarget = null;
+    private String replyTarget;
 
-    public void setFragmentsAndAttachments(List<ChatFragment> fragments, List<Attachment> attachments) {
-        this.raw = "";
-        this.html = "";
-        for (ChatFragment f : this.fragments) {
-            this.raw += f.raw;
-            this.html += f.html;
-        }
-
-        this.html += "<sup class=\"upvote-counter\"></sup>"; // Shhhh.
-
-        if (!this.attachments.isEmpty()) {
-            this.html += "<br />";
-            for (Attachment a : this.attachments) {
-                this.html += a.html;
-            }
-        }
-    }
+//    public void setFragmentsAndAttachments(List<ChatFragment> fragments, List<Attachment> attachments) {
+//        this.raw = "";
+//        this.html = "";
+//        for (ChatFragment f : this.fragments) {
+//            this.raw += f.raw;
+//            this.html += f.html;
+//        }
+//
+//        this.html += "<sup class=\"upvote-counter\"></sup>"; // Shhhh.
+//
+//        if (!this.attachments.isEmpty()) {
+//            this.html += "<br />";
+//            for (Attachment a : this.attachments) {
+//                this.html += a.html;
+//            }
+//        }
+//    }
 
     @JsonDeserializationMethod("fragments")
     private void $deserialize_fragments(JsonElement arr) throws JsonValidationException, JsonParseException {
@@ -90,7 +95,7 @@ public class RichMessageEvent extends MessageMeta {
 
             assert fragmentClass != null : "Unrecognized ChatFragment type: " + obj.getString("type");
 
-            this.fragments.add(KoiConnection.RSON.fromJson(fragment, fragmentClass));
+            this.fragments.add(Rson.DEFAULT.fromJson(fragment, fragmentClass));
         }
     }
 

@@ -8,17 +8,19 @@ import co.casterlabs.rakurai.json.annotating.JsonField;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
+@Getter
+@SuperBuilder
 @NoArgsConstructor
 @JsonClass(exposeAll = true)
 @EqualsAndHashCode(callSuper = true)
 public class ChannelPointsEvent extends KoiEvent {
-    public User sender;
-    public ChannelPointsReward reward;
-    public RedemptionStatus status;
-    public String id;
-    public String message;
+    private User sender;
+    private ChannelPointsReward reward;
+    private RedemptionStatus status;
+    private String id;
+    private String message;
 
     @Override
     public KoiEventType getType() {
@@ -31,96 +33,100 @@ public class ChannelPointsEvent extends KoiEvent {
     }
 
     @Getter
-    @ToString
-    @EqualsAndHashCode
+    @SuperBuilder
+    @NoArgsConstructor
     @JsonClass(exposeAll = true)
+    @EqualsAndHashCode()
     public static class ChannelPointsReward {
 
         @JsonField("background_color")
-        public String backgroundColor;
+        private String backgroundColor;
 
-        public String id;
+        private String id;
 
         @JsonField("cooldown_expires_at")
-        public Instant cooldownExpiresAt;
+        private Instant cooldownExpiresAt;
 
-        public String title;
+        private String title;
 
-        public String prompt;
+        private String prompt;
 
-        public int cost;
+        private int cost;
 
         @JsonField("is_enabled")
-        public boolean enabled;
+        private boolean enabled;
 
         @JsonField("is_in_stock")
-        public boolean inStock;
+        private boolean inStock;
 
         @JsonField("is_paused")
-        public boolean paused;
+        private boolean paused;
 
         @JsonField("is_sub_only")
-        public boolean subOnly;
+        private boolean subOnly;
 
         @JsonField("is_user_input_required")
-        public boolean userInputRequired;
+        private boolean userInputRequired;
 
         @JsonField("reward_image")
-        public String rewardImage;
+        private String rewardImage;
 
         @JsonField("default_reward_image")
-        public String defaultRewardImage;
+        private String defaultRewardImage;
 
         @JsonField("max_per_stream")
-        public ChannelPointsMaxPerStream maxPerStream;
+        private ChannelPointsMaxPerStream maxPerStream;
 
         @JsonField("max_per_user_per_stream")
-        public ChannelPointsMaxPerUserPerStream maxPerUserPerStream;
+        private ChannelPointsMaxPerUserPerStream maxPerUserPerStream;
 
         @JsonField("global_cooldown")
-        public ChannelPointsCooldown globalCooldown;
+        private ChannelPointsCooldown globalCooldown;
 
     }
 
     @Getter
-    @ToString
-    @EqualsAndHashCode
+    @SuperBuilder
+    @NoArgsConstructor
     @JsonClass(exposeAll = true)
+    @EqualsAndHashCode()
     public static class ChannelPointsMaxPerStream {
 
         @JsonField("is_enabled")
-        public boolean enabled;
+        private boolean enabled;
 
         @JsonField("max_per_stream")
-        public int max;
+        private int max;
 
     }
 
     @Getter
-    @ToString
-    @EqualsAndHashCode
+    @SuperBuilder
+    @NoArgsConstructor
     @JsonClass(exposeAll = true)
+    @EqualsAndHashCode()
     public static class ChannelPointsMaxPerUserPerStream {
 
         @JsonField("is_enabled")
-        public boolean enabled;
+        private boolean enabled;
 
         @JsonField("max_per_user_per_stream")
-        public int max;
+        private int max;
 
     }
 
     @Getter
-    @ToString
-    @EqualsAndHashCode
+    @SuperBuilder
+    @NoArgsConstructor
     @JsonClass(exposeAll = true)
+    @EqualsAndHashCode()
     public static class ChannelPointsCooldown {
 
         @JsonField("is_enabled")
-        public boolean enabled;
+        private boolean enabled;
 
         @JsonField("global_cooldown_seconds")
-        public int globalCooldownSeconds;
+        private int globalCooldownSeconds;
 
     }
 

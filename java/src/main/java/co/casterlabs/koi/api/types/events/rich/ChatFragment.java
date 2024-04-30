@@ -7,15 +7,19 @@ import co.casterlabs.rakurai.json.annotating.JsonSerializationMethod;
 import co.casterlabs.rakurai.json.element.JsonElement;
 import co.casterlabs.rakurai.json.element.JsonString;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.experimental.SuperBuilder;
 
+@Getter
+@SuperBuilder
 @NoArgsConstructor
 @JsonClass(exposeAll = true)
 @EqualsAndHashCode()
 public abstract class ChatFragment {
-    public String raw;
-    public String html;
+    private String raw;
+    private String html;
 
     public abstract FragmentType getType();
 

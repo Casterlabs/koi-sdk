@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @JsonClass(exposeAll = true)
 @EqualsAndHashCode(callSuper = true)
 public class UserUpdateEvent extends KoiEvent {
-    public User streamer;
+    private User streamer;
 
     // Intercept the deserialization.
     @JsonDeserializationMethod("streamer")

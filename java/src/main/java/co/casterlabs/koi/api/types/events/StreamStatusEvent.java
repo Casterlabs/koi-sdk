@@ -8,30 +8,34 @@ import co.casterlabs.koi.api.types.stream.KoiStreamLanguage;
 import co.casterlabs.rakurai.json.annotating.JsonClass;
 import co.casterlabs.rakurai.json.annotating.JsonField;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
+@Getter
+@SuperBuilder
 @NoArgsConstructor
 @JsonClass(exposeAll = true)
 @EqualsAndHashCode(callSuper = true)
 public class StreamStatusEvent extends KoiEvent {
     @JsonField("is_live")
-    public boolean live;
+    private boolean live;
 
-    public String title;
+    private String title;
 
-    public Instant startTime;
+    private Instant startTime;
 
-    public List<String> tags;
+    private List<String> tags;
 
-    public String category;
+    private String category;
 
     @JsonField("content_rating")
-    public KoiStreamContentRating contentRating;
+    private KoiStreamContentRating contentRating;
 
     @JsonField("thumbnail_url")
-    public String thumbnailUrl;
+    private String thumbnailUrl;
 
-    public KoiStreamLanguage language;
+    private KoiStreamLanguage language;
 
     @Override
     public KoiEventType getType() {
