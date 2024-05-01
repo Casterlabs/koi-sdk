@@ -13,9 +13,21 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 @JsonClass(exposeAll = true, unsafeInstantiation = true)
 public abstract class MessageMeta extends KoiEvent {
+    /**
+     * Whether or not the message should be shown.
+     * 
+     * @see MessageMetaEvent. This'll provide updates.
+     */
     @JsonField("is_visible")
     public final @NonNull Boolean visible;
 
+    /**
+     * The amount of upvotes this message has. You should only display the count if
+     * the number is greater than 0.
+     * 
+     * @implSpec This number will always be 0 for the platforms that do not have an
+     *           upvoting feature.
+     */
     public final @NonNull Integer upvotes;
 
     public final @NonNull Set<MessageAttribute> attributes;
@@ -44,8 +56,14 @@ public abstract class MessageMeta extends KoiEvent {
 
     public static enum MessageAttribute {
         HIGHLIGHTED,
+
+        /**
+         * See Twitch's /me command.
+         */
         RP_ACTION,
+
         FIRST_TIME_CHATTER,
+
         ANNOUNCEMENT,
     }
 

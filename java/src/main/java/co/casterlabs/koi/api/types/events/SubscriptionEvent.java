@@ -13,10 +13,19 @@ import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 
+/**
+ * Note that you will <i>eventually</i> receive a {@link UserUpdateEvent} with a
+ * corrected {@link User#subscriberCount}. In the meantime, you can increment
+ * the value yourself to keep a "true" count.
+ */
 @SuperBuilder(toBuilder = true)
 @EqualsAndHashCode(callSuper = true)
 @JsonClass(exposeAll = true, unsafeInstantiation = true)
 public class SubscriptionEvent extends KoiEvent {
+    /**
+     * The person who paid for the subscription. Either for their self or for
+     * someone else.
+     */
     public final @NonNull User subscriber;
 
     @JsonField("sub_type")
@@ -26,7 +35,11 @@ public class SubscriptionEvent extends KoiEvent {
     public final @NonNull SubscriptionLevel subLevel;
 
     /**
-     * Null unless {@link #subType} == /GIFT/
+     * Null unless {@link #subType} == /GIFT/. <br />
+     * On some platforms, it is unknowable who will receive a subscription during a
+     * large gift drop. So you may receive a SubscriptionEvent from
+     * {@link #subscriber} multiple times during a gifting event. Do not try to
+     * out-smart the backend, just treat each event as unique.
      */
     @JsonField("gift_recipients")
     public final @Nullable List<User> giftRecipients;

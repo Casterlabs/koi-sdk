@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import co.casterlabs.koi.api.types.events.FollowEvent;
+import co.casterlabs.koi.api.types.events.SubscriptionEvent;
+import co.casterlabs.koi.api.types.events.UserUpdateEvent;
 import co.casterlabs.rakurai.json.annotating.JsonClass;
 import co.casterlabs.rakurai.json.annotating.JsonField;
 import lombok.EqualsAndHashCode;
@@ -35,16 +38,28 @@ public class User extends SimpleProfile {
     public final @NonNull String imageLink;
 
     /**
-     * Will be -1 if the information is not available.
+     * The amount of people who follow this User. YouTube Subscribers are considered
+     * "followers."
+     * 
+     * You may receive a {@link FollowEvent}, in which case you can increment this
+     * value while you wait on a fresh {@link UserUpdateEvent}.
+     * 
+     * @implSpec Will be -1 if the information is not available.
      */
     @JsonField("followers_count")
-    public final @NonNull Long followersCount;
+    public @NonNull Long followersCount;
 
     /**
-     * Will be -1 if the information is not available.
+     * The amount of people who pay a monthly subscription to this User. YouTube
+     * Channel Members are considered "subscribers."
+     * 
+     * You may receive a {@link SubscriptionEvent}, in which case you can increment
+     * this value while you wait on a fresh {@link UserUpdateEvent}.
+     * 
+     * @implSpec Will be -1 if the information is not available.
      */
     @JsonField("subscriber_count")
-    public final @NonNull Long subCount;
+    public @NonNull Long subscriberCount;
 
     @SuppressWarnings("deprecation")
     public SimpleProfile cloneSimpleProfile() {

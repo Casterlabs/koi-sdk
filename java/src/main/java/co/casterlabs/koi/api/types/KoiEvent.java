@@ -16,7 +16,14 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode()
 @JsonClass(exposeAll = true, unsafeInstantiation = true)
 public abstract class KoiEvent {
+    /**
+     * The streamer's account this belongs to.
+     */
     public final @NonNull SimpleProfile streamer;
+
+    /**
+     * The time this event was processed by the backend.
+     */
     public final @NonNull Instant timestamp;
 
     public abstract KoiEventType type();

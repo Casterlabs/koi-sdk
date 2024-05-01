@@ -18,6 +18,10 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode()
 @JsonClass(exposeAll = true, unsafeInstantiation = true)
 public class SimpleProfile {
+    /**
+     * A unique ID that will NEVER collide with another ID from another platform.
+     * Use this for databasing or statistics.
+     */
     public final @NonNull String UPID;
     public final @NonNull String id;
     public final @NonNull @JsonField("channel_id") String channelId;

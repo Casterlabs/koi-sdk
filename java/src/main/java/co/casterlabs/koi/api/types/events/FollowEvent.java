@@ -8,6 +8,11 @@ import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 
+/**
+ * Note that you will <i>eventually</i> receive a {@link UserUpdateEvent} with a
+ * corrected {@link User#followersCount}. In the meantime, you can increment the
+ * value yourself to keep a "true" count.
+ */
 @SuperBuilder(toBuilder = true)
 @EqualsAndHashCode(callSuper = true)
 @JsonClass(exposeAll = true, unsafeInstantiation = true)

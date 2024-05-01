@@ -11,9 +11,18 @@ import lombok.NonNull;
 @JsonClass(exposeAll = true, unsafeInstantiation = true)
 public class EmoteFragment extends ChatFragment {
     public final @NonNull String emoteName;
+
     public final @NonNull String imageLink;
+
+    /**
+     * Some emotes are purely for augmenting another emote. For instance, adding a
+     * rain effect on a Sad Pepe. This is already handled for you in the rendered
+     * html.
+     */
     public final @NonNull Boolean isZeroWidth;
+
     public final @Nullable String provider;
+
     public final @Nullable Donation donation;
 
     private EmoteFragment(String raw, String html, String emoteName, String imageLink, boolean isZeroWidth, String provider, Donation donation) {

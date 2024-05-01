@@ -22,21 +22,42 @@ public class StreamStatusEvent extends KoiEvent {
     @JsonField("is_live")
     public final @NonNull Boolean live;
 
+    /**
+     * @implNote <i>Might</i> be null if the streamer is offline.
+     */
     public final @Nullable String title;
 
+    /**
+     * @implNote <i>Might</i> be null if the streamer is offline.
+     */
     @JsonField("start_time")
     public final @Nullable Instant startTime;
 
+    /**
+     * @implNote <i>Might</i> be null if the streamer is offline.
+     */
     public final @Nullable List<String> tags;
 
+    /**
+     * @implNote <i>Might</i> be null if the streamer is offline.
+     */
     public final @Nullable String category;
 
+    /**
+     * @implNote <i>Might</i> be null if the streamer is offline.
+     */
     @JsonField("content_rating")
     public final @Nullable KoiStreamContentRating contentRating;
 
+    /**
+     * @implNote <i>Might</i> be null if the streamer is offline.
+     */
     @JsonField("thumbnail_url")
     public final @Nullable String thumbnailUrl;
 
+    /**
+     * @implNote <i>Might</i> be null if the streamer is offline.
+     */
     public final @Nullable KoiStreamLanguage language;
 
     @Override
