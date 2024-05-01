@@ -1,23 +1,22 @@
 package co.casterlabs.koi.api.types.events;
 
+import co.casterlabs.koi.api.types.KoiEvent;
+import co.casterlabs.koi.api.types.KoiEventType;
 import co.casterlabs.rakurai.json.annotating.JsonClass;
 import co.casterlabs.rakurai.json.annotating.JsonField;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 
-@Getter
-@SuperBuilder
-@NoArgsConstructor
-@JsonClass(exposeAll = true)
+@SuperBuilder(toBuilder = true)
 @EqualsAndHashCode(callSuper = true)
+@JsonClass(exposeAll = true, unsafeInstantiation = true)
 public class LikeEvent extends KoiEvent {
     @JsonField("total_likes")
-    private long totalLikes;
+    public final @NonNull Long totalLikes;
 
     @Override
-    public KoiEventType getType() {
+    public KoiEventType type() {
         return KoiEventType.LIKE;
     }
 

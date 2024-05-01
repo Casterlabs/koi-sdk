@@ -1,35 +1,34 @@
 package co.casterlabs.koi.api.types.events;
 
+import co.casterlabs.koi.api.types.KoiEvent;
+import co.casterlabs.koi.api.types.KoiEventType;
 import co.casterlabs.rakurai.json.annotating.JsonClass;
 import co.casterlabs.rakurai.json.annotating.JsonField;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 
-@Getter
-@SuperBuilder
-@NoArgsConstructor
-@JsonClass(exposeAll = true)
+@SuperBuilder(toBuilder = true)
 @EqualsAndHashCode(callSuper = true)
+@JsonClass(exposeAll = true, unsafeInstantiation = true)
 public class RoomstateEvent extends KoiEvent {
     @JsonField("is_emote_only")
-    private boolean isEmoteOnly;
+    public final @NonNull Boolean isEmoteOnly;
 
     @JsonField("is_subs_only")
-    private boolean isSubsOnly;
+    public final @NonNull Boolean isSubsOnly;
 
     @JsonField("is_r9k")
-    private boolean isR9KMode;
+    public final @NonNull Boolean isR9KMode;
 
     @JsonField("is_followers_only")
-    private boolean isFollowersOnly;
+    public final @NonNull Boolean isFollowersOnly;
 
     @JsonField("is_slowmode")
-    private boolean isSlowMode;
+    public final @NonNull Boolean isSlowMode;
 
     @Override
-    public KoiEventType getType() {
+    public KoiEventType type() {
         return KoiEventType.ROOMSTATE;
     }
 

@@ -1,4 +1,4 @@
-package co.casterlabs.koi.api.types.events;
+package co.casterlabs.koi.api.types;
 
 import java.time.Instant;
 
@@ -9,29 +9,31 @@ import co.casterlabs.rakurai.json.annotating.JsonSerializationMethod;
 import co.casterlabs.rakurai.json.element.JsonElement;
 import co.casterlabs.rakurai.json.element.JsonString;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 
-@Getter
-@SuperBuilder
-@NoArgsConstructor
-@JsonClass(exposeAll = true)
+@SuperBuilder(toBuilder = true)
 @EqualsAndHashCode()
+@JsonClass(exposeAll = true, unsafeInstantiation = true)
 public abstract class KoiEvent {
-    protected SimpleProfile streamer;
-    private Instant timestamp;
+    public final @NonNull SimpleProfile streamer;
+    public final @NonNull Instant timestamp;
 
-    public abstract KoiEventType getType();
+    public abstract KoiEventType type();
 
     @JsonSerializationMethod("event_type")
     private JsonElement $serialize_type() {
-        return new JsonString(this.getType());
+        return new JsonString(this.type());
     }
 
     @Override
     public String toString() {
         return Rson.DEFAULT.toJson(this).toString(false);
+    }
+
+    static {
+        // Duplicated from KoiConnection... just in case...
+        KoiEvent.class.getClassLoader().setPackageAssertionStatus("co.casterlabs.koi.api", true);
     }
 
 }

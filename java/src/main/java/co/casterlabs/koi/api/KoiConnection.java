@@ -12,8 +12,8 @@ import org.jetbrains.annotations.Nullable;
 
 import co.casterlabs.koi.api.listener.KoiEventUtil;
 import co.casterlabs.koi.api.listener.KoiLifeCycleHandler;
-import co.casterlabs.koi.api.types.events.KoiEvent;
-import co.casterlabs.koi.api.types.events.KoiEventType;
+import co.casterlabs.koi.api.types.KoiEvent;
+import co.casterlabs.koi.api.types.KoiEventType;
 import co.casterlabs.rakurai.json.Rson;
 import co.casterlabs.rakurai.json.TypeToken;
 import co.casterlabs.rakurai.json.element.JsonElement;
@@ -24,6 +24,11 @@ import lombok.SneakyThrows;
 import xyz.e3ndr.fastloggingframework.logging.FastLogger;
 
 public class KoiConnection implements Closeable {
+
+    static {
+        KoiEvent.class.getClassLoader().setPackageAssertionStatus("co.casterlabs.koi.api", true);
+    }
+
     public static final String KOI_URL = "wss://api.casterlabs.co/v2/koi";
 
     private static int idx = 0;
@@ -199,7 +204,8 @@ public class KoiConnection implements Closeable {
                         KoiEvent event = KoiEventType.get(eventJson);
 
                         if (event == null) {
-                            logger.warn("Unsupported event type: %s", eventJson.getString("event_type"));
+                            logger.debug("Unsupported event type: %s", eventJson.getString("event_type"));
+                            return;
                         }
 
                         KoiEventUtil.reflectInvoke(listener, event);

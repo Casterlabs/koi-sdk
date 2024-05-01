@@ -71,6 +71,20 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- Used for RichMessages -->
+		<dependency>
+			<groupId>co.casterlabs.EmojiApi</groupId>
+			<artifactId>Index</artifactId>
+			<version>3.5.2</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.unbescape</groupId>
+			<artifactId>unbescape</artifactId>
+			<version>1.1.6.RELEASE</version>
+			<scope>compile</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>org.java-websocket</groupId>
 			<artifactId>Java-WebSocket</artifactId>

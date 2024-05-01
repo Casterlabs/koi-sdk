@@ -1,18 +1,25 @@
 package co.casterlabs.koi.api.types.events;
 
+import java.lang.reflect.Field;
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.Nullable;
 
+import co.casterlabs.koi.api.types.KoiEventType;
+import co.casterlabs.koi.api.types.MessageMeta;
 import co.casterlabs.koi.api.types.events.rich.Attachment;
-import co.casterlabs.koi.api.types.events.rich.ChatFragment;
-import co.casterlabs.koi.api.types.events.rich.ChatFragment.FragmentType;
 import co.casterlabs.koi.api.types.events.rich.Donation;
-import co.casterlabs.koi.api.types.events.rich.EmojiFragment;
-import co.casterlabs.koi.api.types.events.rich.EmoteFragment;
-import co.casterlabs.koi.api.types.events.rich.LinkFragment;
-import co.casterlabs.koi.api.types.events.rich.MentionFragment;
-import co.casterlabs.koi.api.types.events.rich.TextFragment;
+import co.casterlabs.koi.api.types.events.rich.fragments.ChatFragment;
+import co.casterlabs.koi.api.types.events.rich.fragments.ChatFragment.FragmentType;
+import co.casterlabs.koi.api.types.events.rich.fragments.EmojiFragment;
+import co.casterlabs.koi.api.types.events.rich.fragments.EmoteFragment;
+import co.casterlabs.koi.api.types.events.rich.fragments.LinkFragment;
+import co.casterlabs.koi.api.types.events.rich.fragments.MentionFragment;
+import co.casterlabs.koi.api.types.events.rich.fragments.TextFragment;
+import co.casterlabs.koi.api.types.user.SimpleProfile;
 import co.casterlabs.koi.api.types.user.User;
 import co.casterlabs.rakurai.json.Rson;
 import co.casterlabs.rakurai.json.annotating.JsonClass;
@@ -23,54 +30,31 @@ import co.casterlabs.rakurai.json.annotating.JsonSerializationMethod;
 import co.casterlabs.rakurai.json.element.JsonElement;
 import co.casterlabs.rakurai.json.element.JsonObject;
 import co.casterlabs.rakurai.json.serialization.JsonParseException;
-import co.casterlabs.rakurai.json.validation.JsonValidationException;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import lombok.NonNull;
 
-@Getter
-@SuperBuilder
-@NoArgsConstructor
-@JsonClass(exposeAll = true)
 @EqualsAndHashCode(callSuper = true)
+@JsonClass(exposeAll = true, unsafeInstantiation = true)
 public class RichMessageEvent extends MessageMeta {
-    private User sender;
+    public final @NonNull User sender;
 
-    private @JsonExclude List<ChatFragment> fragments;
-    private List<Donation> donations;
-    private List<Attachment> attachments;
-    private String raw;
-    private String html;
+    public final @NonNull @JsonExclude List<ChatFragment> fragments;
+    public final @NonNull List<Donation> donations;
+    public final @NonNull List<Attachment> attachments;
+    public final @NonNull String raw;
+    public final @NonNull String html;
 
-    private String id;
+    public final @NonNull String id;
+
     @JsonField("meta_id")
-    private String metaId;
+    public final @NonNull String metaId;
 
-    @Nullable
     @JsonField("reply_target")
-    private String replyTarget;
-
-//    public void setFragmentsAndAttachments(List<ChatFragment> fragments, List<Attachment> attachments) {
-//        this.raw = "";
-//        this.html = "";
-//        for (ChatFragment f : this.fragments) {
-//            this.raw += f.raw;
-//            this.html += f.html;
-//        }
-//
-//        this.html += "<sup class=\"upvote-counter\"></sup>"; // Shhhh.
-//
-//        if (!this.attachments.isEmpty()) {
-//            this.html += "<br />";
-//            for (Attachment a : this.attachments) {
-//                this.html += a.html;
-//            }
-//        }
-//    }
+    public final @Nullable String replyTarget;
 
     @JsonDeserializationMethod("fragments")
-    private void $deserialize_fragments(JsonElement arr) throws JsonValidationException, JsonParseException {
+    private void $deserialize_fragments(JsonElement arr) throws JsonParseException, NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+        List<ChatFragment> fragments = new ArrayList<>(arr.getAsArray().size());
         for (JsonElement fragment : arr.getAsArray()) {
             JsonObject obj = fragment.getAsObject();
             Class<? extends ChatFragment> fragmentClass = null;
@@ -95,7 +79,13 @@ public class RichMessageEvent extends MessageMeta {
 
             assert fragmentClass != null : "Unrecognized ChatFragment type: " + obj.getString("type");
 
-            this.fragments.add(Rson.DEFAULT.fromJson(fragment, fragmentClass));
+            fragments.add(Rson.DEFAULT.fromJson(fragment, fragmentClass));
+        }
+
+        {
+            Field f = RichMessageEvent.class.getDeclaredField("fragments");
+            f.setAccessible(true);
+            f.set(this, fragments);
         }
     }
 
@@ -105,8 +95,79 @@ public class RichMessageEvent extends MessageMeta {
     }
 
     @Override
-    public KoiEventType getType() {
+    public KoiEventType type() {
         return KoiEventType.RICH_MESSAGE;
+    }
+
+    /* -------------------- */
+    /* -------------------- */
+    /* -------------------- */
+
+    RichMessageEvent(
+        @NonNull MessageMetaBuilder<?, ?> b,
+        @NonNull User sender,
+        @NonNull List<ChatFragment> fragments,
+        @NonNull List<Donation> donations,
+        @NonNull List<Attachment> attachments,
+        @NonNull String raw,
+        @NonNull String html,
+        @NonNull String id,
+        @NonNull String metaId,
+        @NonNull String replyTarget
+    ) {
+        super(b);
+        this.sender = sender;
+        this.fragments = fragments;
+        this.donations = donations;
+        this.attachments = attachments;
+        this.raw = raw;
+        this.html = html;
+        this.id = id;
+        this.metaId = metaId;
+        this.replyTarget = replyTarget;
+    }
+
+    public static RichMessageEvent of(
+        @NonNull SimpleProfile streamer,
+        @NonNull Instant timestamp,
+        @NonNull User sender,
+        @NonNull List<ChatFragment> fragments,
+        @NonNull List<Donation> donations,
+        @NonNull List<Attachment> attachments,
+        @NonNull String id,
+        @NonNull String metaId,
+        @NonNull String replyTarget
+    ) {
+        String raw = fragments.stream()
+            .map((f) -> f.raw)
+            .collect(Collectors.joining());
+
+        String html = fragments.stream()
+            .map((f) -> f.html)
+            .collect(Collectors.joining());
+
+        html += "<sup class=\"upvote-counter\"></sup>"; // Upvote counter. Manually used & populated by the client.
+
+        for (Attachment attachment : attachments) {
+            html += "<br />";
+            html += attachment.html;
+        }
+
+        return new RichMessageEvent(
+            MessageMeta
+                ._builder()
+                .streamer(streamer)
+                .timestamp(timestamp),
+            sender,
+            fragments,
+            donations,
+            attachments,
+            raw,
+            html,
+            id,
+            metaId,
+            replyTarget
+        );
     }
 
 }

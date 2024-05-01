@@ -5,40 +5,48 @@ import java.util.List;
 import co.casterlabs.rakurai.json.annotating.JsonClass;
 import co.casterlabs.rakurai.json.annotating.JsonField;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Singular;
 import lombok.experimental.SuperBuilder;
 
-@Getter
-@SuperBuilder
-@NoArgsConstructor
-@JsonClass(exposeAll = true)
+@SuperBuilder(toBuilder = true)
 @EqualsAndHashCode(callSuper = true)
+@JsonClass(exposeAll = true, unsafeInstantiation = true)
 public class User extends SimpleProfile {
-    private List<UserRoles> roles;
+    public final @NonNull @Singular(ignoreNullCollections = true) List<UserRoles> roles;
 
-    private List<String> badges;
+    public final @NonNull @Singular(ignoreNullCollections = true) List<String> badges;
 
-    private String color;
+    public final @NonNull String color;
 
-    private String username;
+    public final @NonNull String username;
 
-    private String displayname;
+    public final @NonNull String displayname;
 
-    private Pronouns pronouns;
+    public final @NonNull Pronouns pronouns;
 
-    private String bio;
+    public final @NonNull String bio;
 
-    private String link;
+    public final @NonNull String link;
 
     @JsonField("image_link")
-    private String imageLink;
+    public final @NonNull String imageLink;
 
+    /**
+     * Will be -1 if the information is not available.
+     */
     @JsonField("followers_count")
-    private long followersCount;
+    public final @NonNull Long followersCount;
 
+    /**
+     * Will be -1 if the information is not available.
+     */
     @JsonField("subscriber_count")
-    private long subCount;
+    public final @NonNull Long subCount;
+
+    public SimpleProfile cloneSimpleProfile() {
+        return new SimpleProfile(this.UPID, this.id, this.channelId, this.platform);
+    }
 
     public static enum UserRoles {
         BROADCASTER,

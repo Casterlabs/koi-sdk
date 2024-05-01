@@ -2,6 +2,8 @@ package co.casterlabs.koi.api.types.events;
 
 import java.time.Instant;
 
+import co.casterlabs.koi.api.types.KoiEvent;
+import co.casterlabs.koi.api.types.KoiEventType;
 import co.casterlabs.koi.api.types.user.User;
 import co.casterlabs.rakurai.json.annotating.JsonClass;
 import co.casterlabs.rakurai.json.annotating.JsonField;
@@ -10,20 +12,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-@Getter
-@SuperBuilder
-@NoArgsConstructor
-@JsonClass(exposeAll = true)
+@SuperBuilder(toBuilder = true)
 @EqualsAndHashCode(callSuper = true)
+@JsonClass(exposeAll = true, unsafeInstantiation = true)
 public class ChannelPointsEvent extends KoiEvent {
-    private User sender;
-    private ChannelPointsReward reward;
-    private RedemptionStatus status;
-    private String id;
-    private String message;
+    public final User sender;
+    public final ChannelPointsReward reward;
+    public final RedemptionStatus status;
+    public final String id;
+    public final String message;
 
     @Override
-    public KoiEventType getType() {
+    public KoiEventType type() {
         return KoiEventType.CHANNEL_POINTS;
     }
 

@@ -1,31 +1,28 @@
 package co.casterlabs.koi.api.types.events.rich;
 
 import co.casterlabs.rakurai.json.annotating.JsonClass;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import lombok.NonNull;
 
-@Getter
-@SuperBuilder
-@NoArgsConstructor
-@JsonClass(exposeAll = true)
 @EqualsAndHashCode()
+@AllArgsConstructor(staticName = "of")
+@JsonClass(exposeAll = true, unsafeInstantiation = true)
 public class Donation {
-    private Donation.DonationType type;
-    private String name;
+    public final @NonNull Donation.DonationType type;
+    public final @NonNull String name;
 
-    private String currency;
-    private double amount;
+    public final @NonNull String currency;
+    public final @NonNull Double amount;
 
     /**
      * This is the amount of the item sent. For example, Caffeine props can be sent
      * multiple times in a single message. For the true value of a donation,
      * multiply this times amount.
      */
-    private int count;
+    public final @NonNull Integer count;
 
-    private String image;
+    public final @NonNull String image;
 
     public static enum DonationType {
         CASTERLABS_TEST,

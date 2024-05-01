@@ -1,5 +1,23 @@
-package co.casterlabs.koi.api.types.events;
+package co.casterlabs.koi.api.types;
 
+import co.casterlabs.koi.api.types.events.CatchupEvent;
+import co.casterlabs.koi.api.types.events.ChannelPointsEvent;
+import co.casterlabs.koi.api.types.events.ClearChatEvent;
+import co.casterlabs.koi.api.types.events.ConnectionStateEvent;
+import co.casterlabs.koi.api.types.events.FollowEvent;
+import co.casterlabs.koi.api.types.events.LikeEvent;
+import co.casterlabs.koi.api.types.events.MessageMetaEvent;
+import co.casterlabs.koi.api.types.events.PlatformMessageEvent;
+import co.casterlabs.koi.api.types.events.RaidEvent;
+import co.casterlabs.koi.api.types.events.RichMessageEvent;
+import co.casterlabs.koi.api.types.events.RoomstateEvent;
+import co.casterlabs.koi.api.types.events.StreamStatusEvent;
+import co.casterlabs.koi.api.types.events.SubscriptionEvent;
+import co.casterlabs.koi.api.types.events.UserUpdateEvent;
+import co.casterlabs.koi.api.types.events.ViewerCountEvent;
+import co.casterlabs.koi.api.types.events.ViewerJoinEvent;
+import co.casterlabs.koi.api.types.events.ViewerLeaveEvent;
+import co.casterlabs.koi.api.types.events.ViewerListEvent;
 import co.casterlabs.rakurai.json.Rson;
 import co.casterlabs.rakurai.json.element.JsonObject;
 import lombok.AllArgsConstructor;

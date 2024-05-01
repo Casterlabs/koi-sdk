@@ -1,46 +1,45 @@
 package co.casterlabs.koi.api.types.events;
 
+import co.casterlabs.koi.api.types.KoiEvent;
+import co.casterlabs.koi.api.types.KoiEventType;
 import co.casterlabs.koi.api.types.user.User;
 import co.casterlabs.rakurai.json.annotating.JsonClass;
 import co.casterlabs.rakurai.json.annotating.JsonField;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 
-@Getter
-@SuperBuilder
-@NoArgsConstructor
-@JsonClass(exposeAll = true)
+@SuperBuilder(toBuilder = true)
 @EqualsAndHashCode(callSuper = true)
+@JsonClass(exposeAll = true, unsafeInstantiation = true)
 public class SubscriptionEvent extends KoiEvent {
-    private User subscriber;
+    public final @NonNull User subscriber;
 
     @JsonField("gift_recipient")
-    public User giftRecipient;
+    public final @NonNull User giftRecipient;
 
     /**
      * Note that this is unknowable on some platforms, like TikTok. In that case, it
      * will always be 1.
      */
     @JsonField("months_purchased")
-    private int monthsPurchased;
+    public final @NonNull Integer monthsPurchased;
 
     /**
      * Note that this is unknowable on some platforms, like TikTok. In that case, it
      * will always be 1.
      */
     @JsonField("months_streak")
-    private int monthsStreak;
+    public final @NonNull Integer monthsStreak;
 
     @JsonField("sub_type")
-    private SubscriptionType subType;
+    public final @NonNull SubscriptionType subType;
 
     @JsonField("sub_level")
-    private SubscriptionLevel subLevel;
+    public final @NonNull SubscriptionLevel subLevel;
 
     @Override
-    public KoiEventType getType() {
+    public KoiEventType type() {
         return KoiEventType.SUBSCRIPTION;
     }
 

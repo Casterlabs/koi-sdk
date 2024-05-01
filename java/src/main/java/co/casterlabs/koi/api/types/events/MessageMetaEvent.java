@@ -1,23 +1,22 @@
 package co.casterlabs.koi.api.types.events;
 
+import co.casterlabs.koi.api.types.KoiEventType;
+import co.casterlabs.koi.api.types.MessageMeta;
 import co.casterlabs.rakurai.json.annotating.JsonClass;
 import co.casterlabs.rakurai.json.annotating.JsonField;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 
-@Getter
-@SuperBuilder
-@NoArgsConstructor
-@JsonClass(exposeAll = true)
+@SuperBuilder()
 @EqualsAndHashCode(callSuper = true)
+@JsonClass(exposeAll = true, unsafeInstantiation = true)
 public class MessageMetaEvent extends MessageMeta {
     @JsonField("meta_id")
-    private String metaId;
+    public final @NonNull String metaId;
 
     @Override
-    public KoiEventType getType() {
+    public KoiEventType type() {
         return KoiEventType.META;
     }
 
