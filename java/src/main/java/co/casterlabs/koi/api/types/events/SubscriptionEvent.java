@@ -1,5 +1,9 @@
 package co.casterlabs.koi.api.types.events;
 
+import java.util.List;
+
+import org.jetbrains.annotations.Nullable;
+
 import co.casterlabs.koi.api.types.KoiEvent;
 import co.casterlabs.koi.api.types.KoiEventType;
 import co.casterlabs.koi.api.types.user.User;
@@ -15,8 +19,17 @@ import lombok.experimental.SuperBuilder;
 public class SubscriptionEvent extends KoiEvent {
     public final @NonNull User subscriber;
 
-    @JsonField("gift_recipient")
-    public final @NonNull User giftRecipient;
+    @JsonField("sub_type")
+    public final @NonNull SubscriptionType subType;
+
+    @JsonField("sub_level")
+    public final @NonNull SubscriptionLevel subLevel;
+
+    /**
+     * Null unless {@link #subType} == /GIFT/
+     */
+    @JsonField("gift_recipients")
+    public final @Nullable List<User> giftRecipients;
 
     /**
      * Note that this is unknowable on some platforms, like TikTok. In that case, it
@@ -31,12 +44,6 @@ public class SubscriptionEvent extends KoiEvent {
      */
     @JsonField("months_streak")
     public final @NonNull Integer monthsStreak;
-
-    @JsonField("sub_type")
-    public final @NonNull SubscriptionType subType;
-
-    @JsonField("sub_level")
-    public final @NonNull SubscriptionLevel subLevel;
 
     @Override
     public KoiEventType type() {

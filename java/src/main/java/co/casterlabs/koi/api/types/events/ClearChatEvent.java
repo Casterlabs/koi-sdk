@@ -1,5 +1,7 @@
 package co.casterlabs.koi.api.types.events;
 
+import org.jetbrains.annotations.Nullable;
+
 import co.casterlabs.koi.api.types.KoiEvent;
 import co.casterlabs.koi.api.types.KoiEventType;
 import co.casterlabs.rakurai.json.annotating.JsonClass;
@@ -12,11 +14,14 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 @JsonClass(exposeAll = true, unsafeInstantiation = true)
 public class ClearChatEvent extends KoiEvent {
-    @JsonField("user_upid")
-    public final @NonNull String userUPID;
-
     @JsonField("clear_type")
     public final @NonNull ClearChatType clearType;
+
+    /**
+     * Null if {@link #clearType} == ClearChatType.ALL.
+     */
+    @JsonField("user_upid")
+    public final @Nullable String userUPID;
 
     @Override
     public KoiEventType type() {

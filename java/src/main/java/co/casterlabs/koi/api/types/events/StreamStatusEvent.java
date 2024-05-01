@@ -3,6 +3,8 @@ package co.casterlabs.koi.api.types.events;
 import java.time.Instant;
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
+
 import co.casterlabs.koi.api.types.KoiEvent;
 import co.casterlabs.koi.api.types.KoiEventType;
 import co.casterlabs.koi.api.types.stream.KoiStreamContentRating;
@@ -20,22 +22,22 @@ public class StreamStatusEvent extends KoiEvent {
     @JsonField("is_live")
     public final @NonNull Boolean live;
 
-    public final @NonNull String title;
+    public final @Nullable String title;
 
     @JsonField("start_time")
-    public final @NonNull Instant startTime;
+    public final @Nullable Instant startTime;
 
-    public final @NonNull List<String> tags;
+    public final @Nullable List<String> tags;
 
-    public final @NonNull String category;
+    public final @Nullable String category;
 
     @JsonField("content_rating")
-    public final @NonNull KoiStreamContentRating contentRating;
+    public final @Nullable KoiStreamContentRating contentRating;
 
     @JsonField("thumbnail_url")
-    public final @NonNull String thumbnailUrl;
+    public final @Nullable String thumbnailUrl;
 
-    public final @NonNull KoiStreamLanguage language;
+    public final @Nullable KoiStreamLanguage language;
 
     @Override
     public KoiEventType type() {
