@@ -1,26 +1,26 @@
 package co.casterlabs.koi.api.types.events;
 
-import java.time.Instant;
+import org.jetbrains.annotations.Nullable;
 
 import co.casterlabs.koi.api.types.KoiEvent;
 import co.casterlabs.koi.api.types.KoiEventType;
 import co.casterlabs.koi.api.types.user.User;
 import co.casterlabs.rakurai.json.annotating.JsonClass;
 import co.casterlabs.rakurai.json.annotating.JsonField;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 
 @SuperBuilder(toBuilder = true)
 @EqualsAndHashCode(callSuper = true)
 @JsonClass(exposeAll = true, unsafeInstantiation = true)
 public class ChannelPointsEvent extends KoiEvent {
-    public final User sender;
-    public final ChannelPointsReward reward;
-    public final RedemptionStatus status;
-    public final String id;
-    public final String message;
+    public final @NonNull User sender;
+    public final @NonNull ChannelPointsReward reward;
+    public final @NonNull RedemptionStatus status;
+    public final @NonNull String id;
+    public final @NonNull String message;
 
     @Override
     public KoiEventType type() {
@@ -32,101 +32,35 @@ public class ChannelPointsEvent extends KoiEvent {
         UNFULFILLED
     }
 
-    @Getter
-    @SuperBuilder
-    @NoArgsConstructor
-    @JsonClass(exposeAll = true)
     @EqualsAndHashCode()
+    @AllArgsConstructor(staticName = "of")
+    @JsonClass(exposeAll = true, unsafeInstantiation = true)
     public static class ChannelPointsReward {
+        public final @NonNull String id;
+
+        public final @NonNull String title;
+
+        public final @NonNull Integer cost;
 
         @JsonField("background_color")
-        private String backgroundColor;
-
-        private String id;
-
-        @JsonField("cooldown_expires_at")
-        private Instant cooldownExpiresAt;
-
-        private String title;
-
-        private String prompt;
-
-        private int cost;
-
-        @JsonField("is_enabled")
-        private boolean enabled;
-
-        @JsonField("is_in_stock")
-        private boolean inStock;
-
-        @JsonField("is_paused")
-        private boolean paused;
-
-        @JsonField("is_sub_only")
-        private boolean subOnly;
-
-        @JsonField("is_user_input_required")
-        private boolean userInputRequired;
+        public final @NonNull String backgroundColor;
 
         @JsonField("reward_image")
-        private String rewardImage;
+        public final @NonNull String rewardImage;
 
         @JsonField("default_reward_image")
-        private String defaultRewardImage;
+        public final @NonNull String defaultRewardImage;
 
-        @JsonField("max_per_stream")
-        private ChannelPointsMaxPerStream maxPerStream;
+        /**
+         * Null if disabled. See {@link #userInput}
+         */
+        public final @Nullable String prompt;
 
-        @JsonField("max_per_user_per_stream")
-        private ChannelPointsMaxPerUserPerStream maxPerUserPerStream;
-
-        @JsonField("global_cooldown")
-        private ChannelPointsCooldown globalCooldown;
-
-    }
-
-    @Getter
-    @SuperBuilder
-    @NoArgsConstructor
-    @JsonClass(exposeAll = true)
-    @EqualsAndHashCode()
-    public static class ChannelPointsMaxPerStream {
-
-        @JsonField("is_enabled")
-        private boolean enabled;
-
-        @JsonField("max_per_stream")
-        private int max;
-
-    }
-
-    @Getter
-    @SuperBuilder
-    @NoArgsConstructor
-    @JsonClass(exposeAll = true)
-    @EqualsAndHashCode()
-    public static class ChannelPointsMaxPerUserPerStream {
-
-        @JsonField("is_enabled")
-        private boolean enabled;
-
-        @JsonField("max_per_user_per_stream")
-        private int max;
-
-    }
-
-    @Getter
-    @SuperBuilder
-    @NoArgsConstructor
-    @JsonClass(exposeAll = true)
-    @EqualsAndHashCode()
-    public static class ChannelPointsCooldown {
-
-        @JsonField("is_enabled")
-        private boolean enabled;
-
-        @JsonField("global_cooldown_seconds")
-        private int globalCooldownSeconds;
+        /**
+         * Null if disabled. See {@link #prompt}
+         */
+        @JsonField("user_input")
+        public final @Nullable String userInput;
 
     }
 
