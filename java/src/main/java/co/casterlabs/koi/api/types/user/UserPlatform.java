@@ -1,7 +1,6 @@
 package co.casterlabs.koi.api.types.user;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 @AllArgsConstructor
 public enum UserPlatform {
@@ -28,7 +27,7 @@ public enum UserPlatform {
     CUSTOM_INTEGRATION("Custom Integration 🔧"), // For custom events created by you.
     ;
 
-    private @Getter String str;
+    private String str;
 
     @Override
     public String toString() {
