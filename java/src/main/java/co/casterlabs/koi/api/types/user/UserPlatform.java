@@ -21,7 +21,6 @@ public enum UserPlatform {
     GLIMESH("Glimesh"),
     BRIME("Brime"),
     THETA("Theta"),
-    YOUNOW("YouNow"),
     LIVESPACE("LiveSpace"),
 
     // Other.
