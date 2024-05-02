@@ -1,14 +1,26 @@
 package co.casterlabs.koi.api.types.user;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.jetbrains.annotations.Nullable;
+
 import co.casterlabs.koi.api.types.events.FollowEvent;
+import co.casterlabs.koi.api.types.events.RichMessageEvent;
 import co.casterlabs.koi.api.types.events.SubscriptionEvent;
 import co.casterlabs.koi.api.types.events.UserUpdateEvent;
+import co.casterlabs.rakurai.json.Rson;
 import co.casterlabs.rakurai.json.annotating.JsonClass;
+import co.casterlabs.rakurai.json.annotating.JsonDeserializationMethod;
+import co.casterlabs.rakurai.json.annotating.JsonExclude;
 import co.casterlabs.rakurai.json.annotating.JsonField;
+import co.casterlabs.rakurai.json.annotating.JsonSerializationMethod;
+import co.casterlabs.rakurai.json.element.JsonElement;
+import co.casterlabs.rakurai.json.serialization.JsonParseException;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.Singular;
@@ -20,7 +32,32 @@ import lombok.experimental.SuperBuilder;
 public class User extends SimpleProfile {
     public final @NonNull @Singular(ignoreNullCollections = true) List<UserRoles> roles;
 
-    public final @NonNull @Singular(ignoreNullCollections = true) List<String> badges;
+    public final @NonNull @JsonExclude @Singular(ignoreNullCollections = true) List<UserBadge> badges;
+
+    // Compat for the current backend. Will be removed once everything's switched
+    // over to this SDK.
+    @JsonDeserializationMethod("badges")
+    private void $deserialize_badges(JsonElement arr) throws JsonParseException, NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+        List<UserBadge> badges = new ArrayList<>(arr.getAsArray().size());
+        for (JsonElement badge : arr.getAsArray()) {
+            if (badge.isJsonString()) {
+                badges.add(UserBadge.of("", badge.getAsString(), null));
+            } else {
+                badges.add(Rson.DEFAULT.fromJson(badge, UserBadge.class));
+            }
+        }
+
+        {
+            Field f = RichMessageEvent.class.getDeclaredField("badges");
+            f.setAccessible(true);
+            f.set(this, badges);
+        }
+    }
+
+    @JsonSerializationMethod("badges")
+    private JsonElement $serialize_badges() {
+        return Rson.DEFAULT.toJson(this.badges);
+    }
 
     public final @NonNull String color;
 
@@ -74,6 +111,18 @@ public class User extends SimpleProfile {
         STAFF,
         VIP,
         OG;
+    }
+
+    @AllArgsConstructor(staticName = "of")
+    @EqualsAndHashCode()
+    @JsonClass(exposeAll = true, unsafeInstantiation = true)
+    public static class UserBadge {
+        public final @NonNull String name;
+
+        @JsonField("image_link")
+        public final @NonNull String imageLink;
+
+        public final @Nullable String provider; // For external providers.
     }
 
     /**
