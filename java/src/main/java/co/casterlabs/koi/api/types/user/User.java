@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
 import org.jetbrains.annotations.Nullable;
 
 import co.casterlabs.koi.api.types.events.FollowEvent;
-import co.casterlabs.koi.api.types.events.RichMessageEvent;
 import co.casterlabs.koi.api.types.events.SubscriptionEvent;
 import co.casterlabs.koi.api.types.events.UserUpdateEvent;
 import co.casterlabs.rakurai.json.Rson;
@@ -48,7 +47,7 @@ public class User extends SimpleProfile {
         }
 
         {
-            Field f = RichMessageEvent.class.getDeclaredField("badges");
+            Field f = User.class.getDeclaredField("badges");
             f.setAccessible(true);
             f.set(this, badges);
         }
