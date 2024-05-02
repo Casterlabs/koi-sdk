@@ -7,18 +7,26 @@ import java.util.stream.Collectors;
 import co.casterlabs.emoji.data.Emoji;
 import co.casterlabs.emoji.data.EmojiAssetImageSet;
 import co.casterlabs.emoji.data.EmojiAssets;
+import co.casterlabs.rakurai.json.Rson;
 import co.casterlabs.rakurai.json.annotating.JsonClass;
+import co.casterlabs.rakurai.json.element.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+import lombok.SneakyThrows;
 
 @EqualsAndHashCode(callSuper = true)
 @JsonClass(exposeAll = true, unsafeInstantiation = true)
 public class EmojiFragment extends ChatFragment {
-    public final @NonNull Emoji.Variation variation;
+    private final @NonNull JsonObject variation;
 
     private EmojiFragment(String raw, String html, Emoji.Variation variation) {
         super(raw, html);
-        this.variation = variation;
+        this.variation = (JsonObject) Rson.DEFAULT.toJson(variation);
+    }
+
+    @SneakyThrows
+    public Emoji.Variation variation() {
+        return Rson.DEFAULT.fromJson(this.variation, Emoji.Variation.class);
     }
 
     @Override
