@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -53,9 +54,16 @@ public class User extends SimpleProfile {
         }
     }
 
+    // Compat for the current backend. Will be removed once everything's switched
+    // over to this SDK.
     @JsonSerializationMethod("badges")
     private JsonElement $serialize_badges() {
-        return Rson.DEFAULT.toJson(this.badges);
+        return Rson.DEFAULT.toJson(
+            this.badges
+                .stream()
+                .map((b) -> b.imageLink)
+                .collect(Collectors.toList())
+        );
     }
 
     public final @NonNull String color;
