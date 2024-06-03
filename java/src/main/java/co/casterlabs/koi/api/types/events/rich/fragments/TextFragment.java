@@ -21,7 +21,7 @@ public class TextFragment extends ChatFragment {
         return FragmentType.TEXT;
     }
 
-    public TextFragment of(@NonNull String text) {
+    public static TextFragment of(@NonNull String text) {
         return new TextFragment(
             text,
             String.format(
