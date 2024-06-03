@@ -1,5 +1,7 @@
 package co.casterlabs.koi.api.types.events;
 
+import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
@@ -7,8 +9,14 @@ import org.jetbrains.annotations.Nullable;
 import co.casterlabs.koi.api.types.KoiEvent;
 import co.casterlabs.koi.api.types.KoiEventType;
 import co.casterlabs.koi.api.types.user.User;
+import co.casterlabs.rakurai.json.Rson;
 import co.casterlabs.rakurai.json.annotating.JsonClass;
+import co.casterlabs.rakurai.json.annotating.JsonDeserializationMethod;
 import co.casterlabs.rakurai.json.annotating.JsonField;
+import co.casterlabs.rakurai.json.annotating.JsonSerializationMethod;
+import co.casterlabs.rakurai.json.element.JsonElement;
+import co.casterlabs.rakurai.json.serialization.JsonParseException;
+import co.casterlabs.rakurai.json.validation.JsonValidationException;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
@@ -57,6 +65,24 @@ public class SubscriptionEvent extends KoiEvent {
      */
     @JsonField("months_streak")
     public final @NonNull Integer monthsStreak;
+
+    // Compat for the current backend. Will be removed once everything's switched
+    // over to this SDK.
+    @JsonDeserializationMethod("gift_recipient")
+    private void $deserialize_gift_recipient(JsonElement e) throws JsonValidationException, JsonParseException, NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+        List<User> recipients = Arrays.asList(Rson.DEFAULT.fromJson(e, User.class));
+
+        {
+            Field f = SubscriptionEvent.class.getDeclaredField("giftRecipients");
+            f.setAccessible(true);
+            f.set(this, recipients);
+        }
+    }
+
+    @JsonSerializationMethod("gift_recipient")
+    private JsonElement $serialize_gift_recipient() {
+        return Rson.DEFAULT.toJson(this.giftRecipients.isEmpty() ? null : this.giftRecipients.get(0));
+    }
 
     @Override
     public KoiEventType type() {
