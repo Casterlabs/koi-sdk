@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.Nullable;
@@ -45,7 +46,6 @@ public class RichMessageEvent extends MessageMeta {
     public final @NonNull String html;
 
     public final @NonNull String id;
-
     @JsonField("meta_id")
     public final @NonNull String metaId;
 
@@ -135,8 +135,11 @@ public class RichMessageEvent extends MessageMeta {
         @NonNull List<Donation> donations,
         @NonNull List<Attachment> attachments,
         @NonNull String id,
+        @NonNull String roomId,
         @NonNull String metaId,
-        @NonNull String replyTarget
+        @NonNull String replyTarget,
+        @NonNull Set<MessageAttribute> attributes,
+        @NonNull Integer upvotes
     ) {
         String raw = fragments.stream()
             .map((f) -> f.raw)
@@ -156,8 +159,11 @@ public class RichMessageEvent extends MessageMeta {
         return new RichMessageEvent(
             MessageMeta
                 ._builder()
+                .attributes(attributes)
+                .upvotes(upvotes)
                 .streamer(streamer)
-                .timestamp(timestamp),
+                .timestamp(timestamp)
+                .roomId(roomId),
             sender,
             fragments,
             donations,

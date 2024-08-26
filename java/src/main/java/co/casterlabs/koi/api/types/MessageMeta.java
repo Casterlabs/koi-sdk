@@ -32,6 +32,9 @@ public abstract class MessageMeta extends KoiEvent {
 
     public final @NonNull Set<MessageAttribute> attributes;
 
+    @JsonField("room_id")
+    public final @NonNull String roomId;
+
     public void applyTo(MessageMeta other) {
 //        other.visible = this.visible;
 //        other.attributes = new HashSet<>(this.attributes);

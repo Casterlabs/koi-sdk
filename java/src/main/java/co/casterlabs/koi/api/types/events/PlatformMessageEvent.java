@@ -67,6 +67,8 @@ public class PlatformMessageEvent extends RichMessageEvent {
         return new PlatformMessageEvent(
             MessageMeta
                 ._builder()
+                .attributes(Collections.emptySet())
+                .upvotes(0)
                 .streamer(streamer)
                 .timestamp(timestamp),
             sender,
