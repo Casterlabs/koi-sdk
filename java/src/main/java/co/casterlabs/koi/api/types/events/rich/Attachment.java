@@ -34,13 +34,13 @@ public class Attachment {
 
     public static Attachment ofImage(String imageSrc, String alt, @Nullable Donation donation) {
         String html = String.format(
-            "<img src=\"%s\" alt=\"%s\" style=\"border-radius: 0.25rem; height: auto; max-height: 2.5em; max-width: 2.5em;\"/>",
+            "<img data-rich-attachment-type=\"image\" src=\"%s\" alt=\"%s\" style=\"border-radius: 0.25rem; height: auto; max-height: 2.5em; max-width: 2.5em;\"/>",
             HtmlEscape.escapeHtml5(imageSrc),
             HtmlEscape.escapeHtml5(alt)
         );
 
         if (donation != null) {
-            html += String.format("x%d", donation.count);
+            html += String.format("<span data-rich-attachment-type=\"image-donation-count\">x%d</span>", donation.count);
         }
 
         return new Attachment(
@@ -56,7 +56,7 @@ public class Attachment {
             AttachmentType.INTERACTIVE,
             new AttachmentContent(url, title),
             String.format(
-                "<iframe src=\"%s\" title=\"%s\" style=\"width: 8em; height: 8em;\"></iframe>",
+                "<iframe data-rich-attachment-type=\"interactive\" src=\"%s\" title=\"%s\" style=\"width: 8em; height: 8em;\"></iframe>",
                 HtmlEscape.escapeHtml5(url),
                 HtmlEscape.escapeHtml5(title)
             ),
