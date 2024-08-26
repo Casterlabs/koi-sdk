@@ -151,9 +151,11 @@ public class RichMessageEvent extends MessageMeta {
 
         html += "<sup class=\"upvote-counter\"></sup>"; // Upvote counter. Manually used & populated by the client.
 
-        for (Attachment attachment : attachments) {
+        if (!attachments.isEmpty()) {
             html += "<br />";
-            html += attachment.html;
+            for (Attachment attachment : attachments) {
+                html += attachment.html;
+            }
         }
 
         return new RichMessageEvent(
