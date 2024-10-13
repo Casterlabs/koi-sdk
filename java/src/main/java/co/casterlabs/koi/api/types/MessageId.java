@@ -7,27 +7,31 @@ import co.casterlabs.koi.api.types.user.SimpleProfile;
 import co.casterlabs.rakurai.json.Rson;
 import co.casterlabs.rakurai.json.annotating.JsonClass;
 import co.casterlabs.rakurai.json.annotating.JsonField;
-import co.casterlabs.rakurai.json.serialization.JsonParseException;
-import co.casterlabs.rakurai.json.validation.JsonValidationException;
-import lombok.Getter;
-import lombok.experimental.SuperBuilder;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
+import lombok.SneakyThrows;
 
 /**
  * Used internally to map replies and rooms and actions.
  */
-@Getter
 @Deprecated
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @JsonClass(exposeAll = true, unsafeInstantiation = true)
-@SuperBuilder(toBuilder = true)
 public class MessageId {
-    @JsonField("room_id")
-    public final String roomId;
+    public final @NonNull SimpleProfile streamer;
+    public final @NonNull SimpleProfile sender;
 
+    /**
+     * @implNote Not all platforms have an ID for a message. In that case, this will
+     *           probably be a random string to ensure the data appears sane.
+     */
     @JsonField("true_id")
-    public final String trueId;
+    public final @NonNull String trueId;
 
-    public final SimpleProfile sender;
-    public final SimpleProfile streamer;
+    public static MessageId of(@NonNull SimpleProfile streamer, @NonNull SimpleProfile sender, @NonNull String trueId) {
+        return new MessageId(streamer, sender, trueId);
+    }
 
     public String serialize() {
         byte[] json = Rson.DEFAULT
@@ -40,7 +44,8 @@ public class MessageId {
             .encodeToString(json);
     }
 
-    public static MessageId deserialize(String base64) throws JsonValidationException, JsonParseException {
+    @SneakyThrows
+    public static MessageId deserialize(String base64) {
         String json = new String(
             Base64
                 .getDecoder()

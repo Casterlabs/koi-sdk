@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
-@EqualsAndHashCode()
+@EqualsAndHashCode
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @JsonClass(exposeAll = true, unsafeInstantiation = true)
 public class Attachment {

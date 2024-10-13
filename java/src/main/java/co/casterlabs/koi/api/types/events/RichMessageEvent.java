@@ -3,14 +3,22 @@ package co.casterlabs.koi.api.types.events;
 import java.lang.reflect.Field;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.Nullable;
 
+import co.casterlabs.koi.api.GenericBuilder;
+import co.casterlabs.koi.api.GenericBuilder.BuilderDefault;
 import co.casterlabs.koi.api.types.KoiEventType;
+import co.casterlabs.koi.api.types.MessageId;
 import co.casterlabs.koi.api.types.MessageMeta;
+import co.casterlabs.koi.api.types.RoomId;
 import co.casterlabs.koi.api.types.events.rich.Attachment;
 import co.casterlabs.koi.api.types.events.rich.Donation;
 import co.casterlabs.koi.api.types.events.rich.fragments.ChatFragment;
@@ -34,23 +42,30 @@ import co.casterlabs.rakurai.json.serialization.JsonParseException;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
+@SuppressWarnings("deprecation")
 @EqualsAndHashCode(callSuper = true)
 @JsonClass(exposeAll = true, unsafeInstantiation = true)
 public class RichMessageEvent extends MessageMeta {
-    public final @NonNull User sender;
+    public final @NonNull User sender = null;
 
-    public final @NonNull @JsonExclude List<ChatFragment> fragments;
-    public final @NonNull List<Donation> donations;
-    public final @NonNull List<Attachment> attachments;
-    public final @NonNull String raw;
-    public final @NonNull String html;
+    public final @NonNull @JsonExclude List<ChatFragment> fragments = null;
 
-    public final @NonNull String id;
+    @BuilderDefault("[]")
+    public final @NonNull List<Donation> donations = null;
+
+    @BuilderDefault("[]")
+    public final @NonNull List<Attachment> attachments = null;
+
     @JsonField("meta_id")
-    public final @NonNull String metaId;
+    public final @NonNull String metaId = null;
+    public final @NonNull String id = null;
 
+    @BuilderDefault("null")
     @JsonField("reply_target")
-    public final @Nullable String replyTarget;
+    public final @Nullable String replyTarget = null;
+
+    public final @NonNull String raw = null;
+    public final @NonNull String html = null;
 
     @JsonDeserializationMethod("fragments")
     private void $deserialize_fragments(JsonElement arr) throws JsonParseException, NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
@@ -103,79 +118,177 @@ public class RichMessageEvent extends MessageMeta {
     /* -------------------- */
     /* -------------------- */
 
-    RichMessageEvent(
-        @NonNull MessageMetaBuilder<?, ?> b,
-        @NonNull User sender,
-        @NonNull List<ChatFragment> fragments,
-        @NonNull List<Donation> donations,
-        @NonNull List<Attachment> attachments,
-        @NonNull String raw,
-        @NonNull String html,
-        @NonNull String id,
-        @NonNull String metaId,
-        @NonNull String replyTarget
-    ) {
-        super(b);
-        this.sender = sender;
-        this.fragments = fragments;
-        this.donations = donations;
-        this.attachments = attachments;
-        this.raw = raw;
-        this.html = html;
-        this.id = id;
-        this.metaId = metaId;
-        this.replyTarget = replyTarget;
+    public Builder toBuilder() {
+        return new Builder(this);
     }
 
-    public static RichMessageEvent of(
-        @NonNull SimpleProfile streamer,
-        @NonNull Instant timestamp,
-        @NonNull User sender,
-        @NonNull List<ChatFragment> fragments,
-        @NonNull List<Donation> donations,
-        @NonNull List<Attachment> attachments,
-        @NonNull String id,
-        @NonNull String roomId,
-        @NonNull String metaId,
-        @NonNull String replyTarget,
-        @NonNull Set<MessageAttribute> attributes,
-        @NonNull Integer upvotes
-    ) {
-        String raw = fragments.stream()
-            .map((f) -> f.raw)
-            .collect(Collectors.joining());
+    public static Builder builder(@NonNull MessageId id, @NonNull RoomId roomId) {
+        return new Builder(id, roomId);
+    }
 
-        String html = fragments.stream()
-            .map((f) -> f.html)
-            .collect(Collectors.joining());
+    public static class Builder extends GenericBuilder<RichMessageEvent> {
 
-        html += "<sup class=\"upvote-counter\"></sup>"; // Upvote counter. Manually used & populated by the client.
-
-        if (!attachments.isEmpty()) {
-            html += "<br />";
-            for (Attachment attachment : attachments) {
-                html += attachment.html;
-            }
+        protected Builder(@NonNull MessageId id, @NonNull RoomId roomId) {
+            super(RichMessageEvent.class);
+            this.timestamp(Instant.now()); // Default.
+            this.put("id", id.serialize());
+            this.put("metaId", id.trueId);
+            this.put("roomId", roomId.serialize());
         }
 
-        return new RichMessageEvent(
-            MessageMeta
-                ._builder()
-                .attributes(attributes)
-                .upvotes(upvotes)
-                .streamer(streamer)
-                .timestamp(timestamp)
-                .roomId(roomId),
-            sender,
-            fragments,
-            donations,
-            attachments,
-            raw,
-            html,
-            id,
-            metaId,
-            replyTarget
-        );
+        protected Builder(RichMessageEvent existing) {
+            this(MessageId.deserialize(existing.id), RoomId.deserialize(existing.roomId));
+            this.inherit(existing);
+        }
+
+        public Builder streamer(@NonNull SimpleProfile value) {
+            this.put("streamer", value);
+            return this;
+        }
+
+        public Builder timestamp(@NonNull Instant value) {
+            this.put("timestamp", value);
+            return this;
+        }
+
+        public Builder visible(boolean value) {
+            this.put("visible", value);
+            return this;
+        }
+
+        public Builder upvotes(int value) {
+            this.put("upvotes", value);
+            return this;
+        }
+
+        public Builder attributes(@NonNull MessageAttribute... values) {
+            return this.attributes(Arrays.asList(values));
+        }
+
+        public Builder attributes(@NonNull Collection<MessageAttribute> values) {
+            this.put("attributes", Collections.unmodifiableSet(new HashSet<>(values)));
+            return this;
+        }
+
+        public Builder appendAttribute(@NonNull MessageAttribute value) {
+            List<MessageAttribute> list = new LinkedList<>(this.get("attributes"));  // Make modifiable. Never null at this location.
+            list.add(value); // Append.
+
+            this.attributes(list);
+            return this;
+        }
+
+        public Builder sender(@NonNull User value) {
+            this.put("sender", value);
+            return this;
+        }
+
+        public Builder fragments(@NonNull ChatFragment... values) {
+            return this.fragments(Arrays.asList(values));
+        }
+
+        public Builder fragments(@NonNull Collection<ChatFragment> values) {
+            for (ChatFragment v : values) {
+                if (v == null) {
+                    throw new NullPointerException("Element in array/list cannot be null.");
+                }
+            }
+
+            this.put("fragments", Collections.unmodifiableList(new ArrayList<>(values)));
+            return this;
+        }
+
+        public Builder appendFragment(@NonNull ChatFragment value) {
+            List<ChatFragment> list = new LinkedList<>(this.get("fragments"));  // Make modifiable. Never null at this location.
+            list.add(value); // Append.
+
+            this.fragments(list);
+            return this;
+        }
+
+        public Builder donations(@NonNull Donation... values) {
+            return this.donations(Arrays.asList(values));
+        }
+
+        public Builder donations(@NonNull Collection<Donation> values) {
+            for (Donation v : values) {
+                if (v == null) {
+                    throw new NullPointerException("Element in array/list cannot be null.");
+                }
+            }
+
+            this.put("donations", Collections.unmodifiableList(new ArrayList<>(values)));
+            return this;
+        }
+
+        public Builder appendDonation(@NonNull Donation value) {
+            List<Donation> list = new LinkedList<>(this.get("donations"));  // Make modifiable. Never null at this location.
+            list.add(value); // Append.
+
+            this.donations(list);
+            return this;
+        }
+
+        public Builder attachments(@NonNull Attachment... values) {
+            return this.attachments(Arrays.asList(values));
+        }
+
+        public Builder attachments(@NonNull Collection<Attachment> values) {
+            for (Attachment v : values) {
+                if (v == null) {
+                    throw new NullPointerException("Element in array/list cannot be null.");
+                }
+            }
+
+            this.put("attachments", Collections.unmodifiableList(new ArrayList<>(values)));
+            return this;
+        }
+
+        public Builder appendAttachment(@NonNull Attachment value) {
+            List<Attachment> list = new LinkedList<>(this.get("attachments"));  // Make modifiable. Never null at this location.
+            list.add(value); // Append.
+
+            this.attachments(list);
+            return this;
+        }
+
+        public Builder replyTarget(@Nullable String value) {
+            this.put("replyTarget", value);
+            return this;
+        }
+
+        @SuppressWarnings("unchecked")
+        @Override
+        public synchronized RichMessageEvent build() {
+            this.put(
+                "raw",
+                ((List<ChatFragment>) this.get("fragments"))
+                    .stream()
+                    .map((f) -> f.raw)
+                    .collect(Collectors.joining())
+            );
+
+            {
+                String html = ((List<ChatFragment>) this.get("fragments"))
+                    .stream()
+                    .map((f) -> f.html)
+                    .collect(Collectors.joining());
+
+                html += "<sup class=\"upvote-counter\"></sup>"; // Upvote counter. Manually used & populated by the client.
+
+                if (!((List<Attachment>) this.get("attachments")).isEmpty()) {
+                    html += "<br />";
+                    for (Attachment attachment : ((List<Attachment>) this.get("attachments"))) {
+                        html += attachment.html;
+                    }
+                }
+
+                this.put("html", html);
+            }
+
+            return super.build();
+        }
+
     }
 
 }

@@ -8,6 +8,5 @@ public enum Pronouns {
     ANY,
     ASK,
     AVOID,
-    OTHER,
-    UNKNOWN
+    OTHER
 }

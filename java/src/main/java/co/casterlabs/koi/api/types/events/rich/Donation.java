@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
-@EqualsAndHashCode()
+@EqualsAndHashCode
 @AllArgsConstructor(staticName = "of")
 @JsonClass(exposeAll = true, unsafeInstantiation = true)
 public class Donation {

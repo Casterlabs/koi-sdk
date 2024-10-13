@@ -1,66 +1,73 @@
 package co.casterlabs.koi.api.types.events;
 
-import org.jetbrains.annotations.Nullable;
+import java.time.Instant;
 
+import co.casterlabs.koi.api.GenericBuilder;
+import co.casterlabs.koi.api.types.ChannelPointsRewardRedemption;
 import co.casterlabs.koi.api.types.KoiEvent;
 import co.casterlabs.koi.api.types.KoiEventType;
+import co.casterlabs.koi.api.types.user.SimpleProfile;
 import co.casterlabs.koi.api.types.user.User;
 import co.casterlabs.rakurai.json.annotating.JsonClass;
-import co.casterlabs.rakurai.json.annotating.JsonField;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-import lombok.experimental.SuperBuilder;
 
-@SuperBuilder(toBuilder = true)
 @EqualsAndHashCode(callSuper = true)
 @JsonClass(exposeAll = true, unsafeInstantiation = true)
 public class ChannelPointsEvent extends KoiEvent {
-    public final @NonNull User sender;
-    public final @NonNull ChannelPointsReward reward;
-    public final @NonNull RedemptionStatus status;
-    public final @NonNull String id;
-    public final @NonNull String message;
+    public final @NonNull User sender = null;
+    public final @NonNull ChannelPointsRewardRedemption reward = null;
+    public final @NonNull String id = null;
 
     @Override
     public KoiEventType type() {
         return KoiEventType.CHANNEL_POINTS;
     }
 
-    public static enum RedemptionStatus {
-        FULFILLED,
-        UNFULFILLED
+    public Builder toBuilder() {
+        return new Builder(this);
     }
 
-    @EqualsAndHashCode()
-    @AllArgsConstructor(staticName = "of")
-    @JsonClass(exposeAll = true, unsafeInstantiation = true)
-    public static class ChannelPointsReward {
-        public final @NonNull String id;
+    public static Builder builder() {
+        return new Builder();
+    }
 
-        public final @NonNull String title;
+    public static class Builder extends GenericBuilder<ChannelPointsEvent> {
 
-        public final @NonNull Integer cost;
+        protected Builder() {
+            super(ChannelPointsEvent.class);
+            this.timestamp(Instant.now()); // Default.
+        }
 
-        @JsonField("background_color")
-        public final @NonNull String backgroundColor;
+        protected Builder(ChannelPointsEvent existing) {
+            this();
+            this.inherit(existing);
+        }
 
-        @JsonField("reward_image")
-        public final @NonNull String rewardImage;
+        public Builder streamer(@NonNull SimpleProfile value) {
+            this.put("streamer", value);
+            return this;
+        }
 
-        @JsonField("default_reward_image")
-        public final @NonNull String defaultRewardImage;
+        public Builder timestamp(@NonNull Instant value) {
+            this.put("timestamp", value);
+            return this;
+        }
 
-        /**
-         * Null if disabled. See {@link #userInput}
-         */
-        public final @Nullable String prompt;
+        public Builder sender(@NonNull User value) {
+            this.put("sender", value);
+            return this;
+        }
 
-        /**
-         * Null if disabled. See {@link #prompt}
-         */
-        @JsonField("user_input")
-        public final @Nullable String userInput;
+        public Builder reward(@NonNull ChannelPointsRewardRedemption value) {
+            this.put("reward", value);
+            return this;
+        }
+
+        public Builder id(@NonNull String value) {
+            this.put("id", value);
+            return this;
+        }
 
     }
 

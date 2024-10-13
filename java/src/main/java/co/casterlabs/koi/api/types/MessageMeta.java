@@ -2,24 +2,26 @@ package co.casterlabs.koi.api.types;
 
 import java.util.Set;
 
-import co.casterlabs.koi.api.types.MessageMeta.BuildableMessageMeta.BuildableMessageMetaBuilder;
+import co.casterlabs.koi.api.GenericBuilder.BuilderDefault;
 import co.casterlabs.rakurai.json.annotating.JsonClass;
 import co.casterlabs.rakurai.json.annotating.JsonField;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-import lombok.experimental.SuperBuilder;
 
-@SuperBuilder(builderMethodName = "__internal_builder")
 @EqualsAndHashCode(callSuper = true)
 @JsonClass(exposeAll = true, unsafeInstantiation = true)
 public abstract class MessageMeta extends KoiEvent {
+    @JsonField("room_id")
+    public final @NonNull String roomId = null;
+
     /**
      * Whether or not the message should be shown.
      * 
      * @see MessageMetaEvent. This'll provide updates.
      */
+    @BuilderDefault("true")
     @JsonField("is_visible")
-    public final @NonNull Boolean visible;
+    public final @NonNull Boolean visible = null;
 
     /**
      * The amount of upvotes this message has. You should only display the count if
@@ -28,14 +30,14 @@ public abstract class MessageMeta extends KoiEvent {
      * @implSpec This number will always be 0 for the platforms that do not have an
      *           upvoting feature.
      */
-    public final @NonNull Integer upvotes;
+    @BuilderDefault("0")
+    public final @NonNull Integer upvotes = null;
 
-    public final @NonNull Set<MessageAttribute> attributes;
-
-    @JsonField("room_id")
-    public final @NonNull String roomId;
+    @BuilderDefault("[]")
+    public final @NonNull Set<MessageAttribute> attributes = null;
 
     public void applyTo(MessageMeta other) {
+        // TODO reflection.
 //        other.visible = this.visible;
 //        other.attributes = new HashSet<>(this.attributes);
 //
@@ -44,17 +46,6 @@ public abstract class MessageMeta extends KoiEvent {
 //        if (other.upvotes < this.upvotes) {
 //            other.upvotes = this.upvotes;
 //        }
-    }
-
-    public BuildableMessageMetaBuilder<?, ?> toBuilder() {
-        return _builder()
-            .visible(this.visible)
-            .upvotes(this.upvotes)
-            .attributes(this.attributes);
-    }
-
-    public static BuildableMessageMetaBuilder<?, ?> _builder() {
-        return BuildableMessageMeta.builder();
     }
 
     public static enum MessageAttribute {
@@ -68,16 +59,6 @@ public abstract class MessageMeta extends KoiEvent {
         FIRST_TIME_CHATTER,
 
         ANNOUNCEMENT,
-    }
-
-    @SuperBuilder(toBuilder = true)
-    public static class BuildableMessageMeta extends MessageMeta {
-
-        @Override
-        public KoiEventType type() {
-            throw new UnsupportedOperationException();
-        }
-
     }
 
 }
