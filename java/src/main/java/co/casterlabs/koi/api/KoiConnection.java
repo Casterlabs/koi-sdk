@@ -16,7 +16,6 @@ import co.casterlabs.koi.api.types.KoiEvent;
 import co.casterlabs.koi.api.types.KoiEventType;
 import co.casterlabs.rakurai.json.Rson;
 import co.casterlabs.rakurai.json.TypeToken;
-import co.casterlabs.rakurai.json.element.JsonElement;
 import co.casterlabs.rakurai.json.element.JsonObject;
 import lombok.Getter;
 import lombok.NonNull;
@@ -24,6 +23,10 @@ import lombok.SneakyThrows;
 import xyz.e3ndr.fastloggingframework.logging.FastLogger;
 
 public class KoiConnection implements Closeable {
+    private static final String KEEP_ALIVE = new JsonObject()
+        .put("type", "KEEP_ALIVE")
+        .putNull("nonce")
+        .toString();
 
     static {
         KoiEvent.class.getClassLoader().setPackageAssertionStatus("co.casterlabs.koi.api", true);
@@ -149,15 +152,6 @@ public class KoiConnection implements Closeable {
             super.send(text);
         }
 
-        private void keepAlive(JsonElement nonce) {
-            JsonObject request = new JsonObject();
-
-            request.put("type", "KEEP_ALIVE");
-            request.put("nonce", nonce);
-
-            this.send(request.toString());
-        }
-
         @Override
         public void onMessage(String raw) {
             logger.debug("\u2193 " + raw);
@@ -174,7 +168,7 @@ public class KoiConnection implements Closeable {
                     }
 
                     case "KEEP_ALIVE": {
-                        this.keepAlive(packet.get("nonce"));
+                        this.send(KEEP_ALIVE);
                         return;
                     }
 
@@ -226,7 +220,7 @@ public class KoiConnection implements Closeable {
                         logger.info("Received the signal to reconnect, waiting a random amount of time and disconnecting.");
                         new Thread(() -> {
                             try {
-                                Thread.sleep(ThreadLocalRandom.current().nextLong(1000, 15000));
+                                Thread.sleep(ThreadLocalRandom.current().nextLong(1 * 1000, 25 * 1000));
                             } catch (InterruptedException e) {}
                             this.close();
                         }).start();
