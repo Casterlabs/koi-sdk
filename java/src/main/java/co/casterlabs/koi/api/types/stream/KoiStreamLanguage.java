@@ -1,8 +1,9 @@
 package co.casterlabs.koi.api.types.stream;
 
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -149,17 +150,17 @@ public enum KoiStreamLanguage {
 
     OTHER("Other");
 
-    public static final Map<KoiStreamLanguage, String> LANG;
+    public static final Map<String, String> NAMES = Collections.unmodifiableMap(
+        Arrays.asList(values())
+            .stream()
+            .collect(Collectors.toMap((p) -> p.name(), (v) -> v.str))
+    );
 
-    static {
-        Map<KoiStreamLanguage, String> map = new HashMap<>();
-        LANG = Collections.unmodifiableMap(map);
+    private String str;
 
-        for (KoiStreamLanguage l : values()) {
-            map.put(l, l.lang);
-        }
+    @Override
+    public String toString() {
+        return this.str;
     }
-
-    private @Getter String lang;
 
 }
