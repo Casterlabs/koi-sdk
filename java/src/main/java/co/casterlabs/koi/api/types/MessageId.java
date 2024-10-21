@@ -2,6 +2,7 @@ package co.casterlabs.koi.api.types;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.UUID;
 
 import co.casterlabs.koi.api.types.user.SimpleProfile;
 import co.casterlabs.rakurai.json.Rson;
@@ -31,6 +32,10 @@ public class MessageId {
 
     public static MessageId of(@NonNull SimpleProfile streamer, @NonNull SimpleProfile sender, @NonNull String trueId) {
         return new MessageId(streamer, sender, trueId);
+    }
+
+    public static MessageId random(@NonNull SimpleProfile streamer, @NonNull SimpleProfile sender) {
+        return of(streamer, sender, UUID.randomUUID().toString());
     }
 
     public String serialize() {

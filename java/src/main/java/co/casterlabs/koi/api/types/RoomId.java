@@ -38,8 +38,12 @@ public class RoomId {
     @JsonField("name")
     public final @Nullable String name;
 
-    public static RoomId of(@NonNull SimpleProfile streamer, @NonNull String trueId, @NonNull String link, @NonNull String name) {
+    public static RoomId of(@NonNull SimpleProfile streamer, @NonNull String trueId, @NonNull String link, @Nullable String name) {
         return new RoomId(streamer, trueId, link, name);
+    }
+
+    public static RoomId of(@NonNull SimpleProfile streamer, @NonNull String link) {
+        return of(streamer, streamer.channelId, link, null);
     }
 
     public String serialize() {

@@ -155,6 +155,11 @@ public class User {
         public final @Nullable String provider; // For external providers.
     }
 
+    @Override
+    public String toString() {
+        return Rson.DEFAULT.toJson(this).toString(false);
+    }
+
     public SimpleProfile toSimpleProfile() {
         return SimpleProfile.builder()
             .id(this.id)
