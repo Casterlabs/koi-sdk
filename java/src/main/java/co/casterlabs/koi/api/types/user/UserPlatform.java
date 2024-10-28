@@ -14,6 +14,7 @@ public enum UserPlatform {
     TIKTOK("TikTok", "https://tiktok.com"),
 
     // Coming up.
+    NOICE("Noice", "https://noice.com"),
     RUMBLE("Rumble", "https://rumble.com"),
     X("𝕏", "https://x.com"),
 
