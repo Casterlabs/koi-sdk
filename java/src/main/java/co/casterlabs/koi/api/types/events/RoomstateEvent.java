@@ -4,17 +4,19 @@ import java.time.Instant;
 
 import co.casterlabs.koi.api.GenericBuilder;
 import co.casterlabs.koi.api.GenericBuilder.BuilderDefault;
-import co.casterlabs.koi.api.types.KoiEvent;
 import co.casterlabs.koi.api.types.KoiEventType;
+import co.casterlabs.koi.api.types.KoiRoomEvent;
+import co.casterlabs.koi.api.types.RoomId;
 import co.casterlabs.koi.api.types.user.SimpleProfile;
 import co.casterlabs.rakurai.json.annotating.JsonClass;
 import co.casterlabs.rakurai.json.annotating.JsonField;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
+@SuppressWarnings("deprecation")
 @EqualsAndHashCode(callSuper = true)
 @JsonClass(exposeAll = true, unsafeInstantiation = true)
-public class RoomstateEvent extends KoiEvent {
+public class RoomstateEvent extends KoiRoomEvent {
     @BuilderDefault("false")
     @JsonField("is_emote_only")
     public final @NonNull Boolean isEmoteOnly = null;
@@ -44,19 +46,20 @@ public class RoomstateEvent extends KoiEvent {
         return new Builder(this);
     }
 
-    public static Builder builder() {
-        return new Builder();
+    public static Builder builder(@NonNull RoomId roomId) {
+        return new Builder(roomId);
     }
 
     public static class Builder extends GenericBuilder<RoomstateEvent> {
 
-        protected Builder() {
+        protected Builder(@NonNull RoomId roomId) {
             super(RoomstateEvent.class);
             this.timestamp(Instant.now()); // Default.
+            this.put("roomId", roomId.serialize());
         }
 
         protected Builder(RoomstateEvent existing) {
-            this();
+            this(RoomId.deserialize(existing.roomId));
             this.inherit(existing);
         }
 

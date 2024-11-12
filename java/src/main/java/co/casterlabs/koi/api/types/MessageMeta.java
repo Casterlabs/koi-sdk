@@ -10,10 +10,7 @@ import lombok.NonNull;
 
 @EqualsAndHashCode(callSuper = true)
 @JsonClass(exposeAll = true, unsafeInstantiation = true)
-public abstract class MessageMeta extends KoiEvent {
-    @JsonField("room_id")
-    public final @NonNull String roomId = null;
-
+public abstract class MessageMeta extends KoiRoomEvent {
     /**
      * Whether or not the message should be shown.
      * 

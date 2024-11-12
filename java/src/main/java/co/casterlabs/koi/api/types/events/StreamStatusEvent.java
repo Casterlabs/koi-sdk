@@ -12,8 +12,9 @@ import org.jetbrains.annotations.Nullable;
 
 import co.casterlabs.koi.api.GenericBuilder;
 import co.casterlabs.koi.api.GenericBuilder.BuilderDefault;
-import co.casterlabs.koi.api.types.KoiEvent;
 import co.casterlabs.koi.api.types.KoiEventType;
+import co.casterlabs.koi.api.types.KoiRoomEvent;
+import co.casterlabs.koi.api.types.RoomId;
 import co.casterlabs.koi.api.types.stream.KoiStreamContentRating;
 import co.casterlabs.koi.api.types.stream.KoiStreamLanguage;
 import co.casterlabs.koi.api.types.user.SimpleProfile;
@@ -22,9 +23,10 @@ import co.casterlabs.rakurai.json.annotating.JsonField;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
+@SuppressWarnings("deprecation")
 @EqualsAndHashCode(callSuper = true)
 @JsonClass(exposeAll = true, unsafeInstantiation = true)
-public class StreamStatusEvent extends KoiEvent {
+public class StreamStatusEvent extends KoiRoomEvent {
     @BuilderDefault("false")
     @JsonField("is_live")
     public final @NonNull Boolean live = null;
@@ -97,19 +99,20 @@ public class StreamStatusEvent extends KoiEvent {
         return new Builder(this);
     }
 
-    public static Builder builder() {
-        return new Builder();
+    public static Builder builder(@NonNull RoomId roomId) {
+        return new Builder(roomId);
     }
 
     public static class Builder extends GenericBuilder<StreamStatusEvent> {
 
-        protected Builder() {
+        protected Builder(@NonNull RoomId roomId) {
             super(StreamStatusEvent.class);
             this.timestamp(Instant.now()); // Default.
+            this.put("roomId", roomId.serialize());
         }
 
         protected Builder(StreamStatusEvent existing) {
-            this();
+            this(RoomId.deserialize(existing.roomId));
             this.inherit(existing);
         }
 
