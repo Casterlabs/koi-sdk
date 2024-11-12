@@ -249,7 +249,7 @@ public class User {
         }
 
         public Builder appendRole(@NonNull UserRoles value) {
-            Set<UserRoles> set = new HashSet<>(this.get("roles"));  // Make modifiable. Never null at this location.
+            Set<UserRoles> set = new HashSet<>(this.getOrDefault("roles", Collections.emptyList())); // Make modifiable.
             set.add(value); // Append.
 
             this.roles(set);
@@ -272,7 +272,7 @@ public class User {
         }
 
         public Builder appendBadge(@NonNull UserBadge value) {
-            Set<UserBadge> set = new HashSet<>(this.get("badges"));  // Make modifiable. Never null at this location.
+            Set<UserBadge> set = new HashSet<>(this.getOrDefault("badges", Collections.emptyList())); // Make modifiable.
             set.add(value); // Append.
 
             this.badges(set);

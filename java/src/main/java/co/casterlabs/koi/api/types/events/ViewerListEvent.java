@@ -73,7 +73,7 @@ public class ViewerListEvent extends KoiEvent {
         }
 
         public Builder appendViewer(@NonNull User value) {
-            List<User> list = new LinkedList<>(this.get("viewers"));  // Make modifiable. Never null at this location.
+            List<User> list = new LinkedList<>(this.getOrDefault("viewers", Collections.emptyList())); // Make modifiable.
             list.add(value); // Append.
 
             this.viewers(list);

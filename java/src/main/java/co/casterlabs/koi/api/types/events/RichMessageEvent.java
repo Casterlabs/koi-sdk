@@ -171,7 +171,7 @@ public class RichMessageEvent extends MessageMeta {
         }
 
         public Builder appendAttribute(@NonNull MessageAttribute value) {
-            List<MessageAttribute> list = new LinkedList<>(this.get("attributes"));  // Make modifiable. Never null at this location.
+            List<MessageAttribute> list = new LinkedList<>(this.getOrDefault("attributes", Collections.emptyList())); // Make modifiable.
             list.add(value); // Append.
 
             this.attributes(list);
@@ -199,7 +199,7 @@ public class RichMessageEvent extends MessageMeta {
         }
 
         public Builder appendFragment(@NonNull ChatFragment value) {
-            List<ChatFragment> list = new LinkedList<>(this.get("fragments"));  // Make modifiable. Never null at this location.
+            List<ChatFragment> list = new LinkedList<>(this.getOrDefault("fragments", Collections.emptyList())); // Make modifiable.
             list.add(value); // Append.
 
             this.fragments(list);
@@ -222,7 +222,7 @@ public class RichMessageEvent extends MessageMeta {
         }
 
         public Builder appendDonation(@NonNull Donation value) {
-            List<Donation> list = new LinkedList<>(this.get("donations"));  // Make modifiable. Never null at this location.
+            List<Donation> list = new LinkedList<>(this.getOrDefault("donations", Collections.emptyList())); // Make modifiable.
             list.add(value); // Append.
 
             this.donations(list);
@@ -245,7 +245,7 @@ public class RichMessageEvent extends MessageMeta {
         }
 
         public Builder appendAttachment(@NonNull Attachment value) {
-            List<Attachment> list = new LinkedList<>(this.get("attachments"));  // Make modifiable. Never null at this location.
+            List<Attachment> list = new LinkedList<>(this.getOrDefault("attachments", Collections.emptyList())); // Make modifiable.
             list.add(value); // Append.
 
             this.attachments(list);

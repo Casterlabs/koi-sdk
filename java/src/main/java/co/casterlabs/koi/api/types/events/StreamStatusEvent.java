@@ -154,12 +154,7 @@ public class StreamStatusEvent extends KoiEvent {
         }
 
         public Builder appendTag(@NonNull String value) {
-            List<String> list = this.get("tags"); // Can be null at this location.
-            if (list == null) {
-                list = new LinkedList<>();
-            } else {
-                list = new LinkedList<>(list); // Make modifiable.
-            }
+            List<String> list = new LinkedList<>(this.getOrDefault("tags", Collections.emptyList())); // Make modifiable.
 
             list.add(value); // Append.
 

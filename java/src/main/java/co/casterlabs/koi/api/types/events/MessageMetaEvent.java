@@ -90,7 +90,7 @@ public class MessageMetaEvent extends MessageMeta {
         }
 
         public Builder appendAttribute(@NonNull MessageAttribute value) {
-            List<MessageAttribute> list = new LinkedList<>(this.get("attributes"));  // Make modifiable. Never null at this location.
+            List<MessageAttribute> list = new LinkedList<>(this.getOrDefault("attributes", Collections.emptyList())); // Make modifiable.
             list.add(value); // Append.
 
             this.attributes(list);

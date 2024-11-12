@@ -189,7 +189,7 @@ public class SubscriptionEvent extends KoiEvent {
         }
 
         public Builder appendGiftRecipient(@NonNull User value) {
-            List<User> list = new LinkedList<>(this.get("giftRecipients"));  // Make modifiable. Never null at this location.
+            List<User> list = new LinkedList<>(this.getOrDefault("giftRecipients", Collections.emptyList())); // Make modifiable.
             list.add(value); // Append.
 
             this.giftRecipients(list);

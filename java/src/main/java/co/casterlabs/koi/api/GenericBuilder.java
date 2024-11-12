@@ -83,6 +83,15 @@ public abstract class GenericBuilder<T> {
     }
 
     /**
+     * Grabs the specified stored value and casts it for you. Useful for adding
+     * items to Collections.
+     */
+    @SuppressWarnings("unchecked")
+    protected synchronized <V> V getOrDefault(String field, V defaultValue) {
+        return (V) this.values.getOrDefault(field, defaultValue);
+    }
+
+    /**
      * Stores the specified value.
      */
     protected synchronized void put(String field, Object value) {

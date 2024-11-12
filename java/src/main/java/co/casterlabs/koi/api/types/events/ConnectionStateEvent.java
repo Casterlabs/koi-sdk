@@ -74,7 +74,7 @@ public class ConnectionStateEvent extends KoiEvent {
         }
 
         public Builder appendState(@NonNull String id, ConnectionState value) {
-            Map<String, ConnectionState> map = new HashMap<>(this.get("states")); // Make modifiable. Never null at this location.
+            Map<String, ConnectionState> map = new HashMap<>(this.getOrDefault("states", Collections.emptyMap())); // Make modifiable.
             map.put(id, value); // Append.
 
             this.states(map); // This call makes it unmodifiable again.
