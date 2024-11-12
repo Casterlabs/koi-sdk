@@ -34,19 +34,21 @@ public class MessageMetaEvent extends MessageMeta {
         return new Builder(this);
     }
 
-    public static Builder builder() {
-        return new Builder();
+    public static Builder builder(@NonNull String trueId_AKA_metaId, @NonNull RoomId roomId) {
+        return new Builder(trueId_AKA_metaId, roomId);
     }
 
     public static class Builder extends GenericBuilder<MessageMetaEvent> {
 
-        protected Builder() {
+        protected Builder(@NonNull String trueId_AKA_metaId, @NonNull RoomId roomId) {
             super(MessageMetaEvent.class);
             this.timestamp(Instant.now()); // Default.
+            this.put("metaId", trueId_AKA_metaId);
+            this.put("roomId", roomId.serialize());
         }
 
         protected Builder(MessageMetaEvent existing) {
-            this();
+            this(existing.metaId, RoomId.deserialize(existing.roomId));
             this.inherit(existing);
         }
 
@@ -57,16 +59,6 @@ public class MessageMetaEvent extends MessageMeta {
 
         public Builder timestamp(@NonNull Instant value) {
             this.put("timestamp", value);
-            return this;
-        }
-
-        public Builder metaId(@NonNull String value) {
-            this.put("metaId", value);
-            return this;
-        }
-
-        public Builder roomId(@NonNull RoomId value) {
-            this.put("roomId", value.serialize());
             return this;
         }
 
