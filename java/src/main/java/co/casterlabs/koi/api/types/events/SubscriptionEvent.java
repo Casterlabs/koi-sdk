@@ -81,10 +81,9 @@ public class SubscriptionEvent extends KoiEvent {
     // over to this SDK.
     @JsonDeserializationMethod("gift_recipient")
     private void $deserialize_gift_recipient(JsonElement e) throws JsonValidationException, JsonParseException, NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-        if (!this.giftRecipients.isEmpty()) return;
+        if (this.giftRecipients != null) return;
 
         List<User> recipients = Arrays.asList(Rson.DEFAULT.fromJson(e, User.class));
-
         {
             Field f = SubscriptionEvent.class.getDeclaredField("giftRecipients");
             f.setAccessible(true);
