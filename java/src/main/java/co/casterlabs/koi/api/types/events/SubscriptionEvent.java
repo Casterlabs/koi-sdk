@@ -9,8 +9,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.jetbrains.annotations.Nullable;
-
 import co.casterlabs.koi.api.GenericBuilder;
 import co.casterlabs.koi.api.GenericBuilder.BuilderDefault;
 import co.casterlabs.koi.api.types.KoiEvent;
@@ -51,7 +49,7 @@ public class SubscriptionEvent extends KoiEvent {
     public final @NonNull SubscriptionLevel subLevel = null;
 
     /**
-     * Null unless {@link #subType} == /GIFT/. <br />
+     * Empty unless {@link #subType} == /GIFT/. <br />
      * On some platforms, it is unknowable who will receive a subscription during a
      * large gift drop. So you may receive a SubscriptionEvent from
      * {@link #subscriber} multiple times during a gifting event. Do not try to
@@ -59,7 +57,7 @@ public class SubscriptionEvent extends KoiEvent {
      */
     @BuilderDefault("[]")
     @JsonField("gift_recipients")
-    public final @Nullable List<User> giftRecipients = null;
+    public final @NonNull List<User> giftRecipients = null;
 
     /**
      * Note that this is unknowable on some platforms, like TikTok. In that case, it
@@ -83,7 +81,13 @@ public class SubscriptionEvent extends KoiEvent {
     private void $deserialize_gift_recipient(JsonElement e) throws JsonValidationException, JsonParseException, NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
         if (this.giftRecipients != null) return;
 
-        List<User> recipients = Arrays.asList(Rson.DEFAULT.fromJson(e, User.class));
+        List<User> recipients;
+        if (e.isJsonObject()) {
+            recipients = Arrays.asList(Rson.DEFAULT.fromJson(e, User.class));
+        } else {
+            recipients = Collections.emptyList();
+        }
+
         {
             Field f = SubscriptionEvent.class.getDeclaredField("giftRecipients");
             f.setAccessible(true);
