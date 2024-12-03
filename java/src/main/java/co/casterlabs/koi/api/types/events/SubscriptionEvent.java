@@ -82,7 +82,7 @@ public class SubscriptionEvent extends KoiEvent {
         if (this.giftRecipients != null) return;
 
         List<User> recipients;
-        if (e.isJsonObject()) {
+        if (e != null && e.isJsonObject()) {
             recipients = Arrays.asList(Rson.DEFAULT.fromJson(e, User.class));
         } else {
             recipients = Collections.emptyList();
