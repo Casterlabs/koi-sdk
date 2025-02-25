@@ -27,6 +27,7 @@ public class SimpleProfile {
      *
      * This field is mutable!
      */
+    @Deprecated
     public final @Nullable JsonObject extraMetadata = null;
     
     public int tryGetIdAsInt() {
