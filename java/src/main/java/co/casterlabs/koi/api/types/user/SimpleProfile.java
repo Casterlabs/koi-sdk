@@ -6,6 +6,7 @@ import co.casterlabs.rakurai.json.annotating.JsonClass;
 import co.casterlabs.rakurai.json.annotating.JsonField;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+import org.jetbrains.annotations.Nullable;
 
 @EqualsAndHashCode
 @JsonClass(exposeAll = true, unsafeInstantiation = true)
