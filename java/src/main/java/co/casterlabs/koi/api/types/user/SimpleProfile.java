@@ -19,6 +19,14 @@ public class SimpleProfile {
     public final @NonNull @JsonField("channel_id") String channelId = null;
     public final @NonNull UserPlatform platform = null;
 
+    /**
+     * Any additional metadata. Not guaranteed to be in a particular format. May be null. 
+     * If you do add your own metadata, is is preferrable that you prefix with identifier:key 
+     *
+     * This field is mutable!
+     */
+    public final @Nullable JsonObject extraMetadata = null;
+    
     public int tryGetIdAsInt() {
         return Integer.parseInt(this.id);
     }
@@ -44,6 +52,7 @@ public class SimpleProfile {
 
         protected Builder() {
             super(SimpleProfile.class);
+            this.put("extraMetadata", new JsonObject());
         }
 
         protected Builder(SimpleProfile existing) {
