@@ -32,6 +32,11 @@ public class ClearChatEvent extends KoiRoomEvent {
         return KoiEventType.CLEARCHAT;
     }
 
+    @Override
+    protected @Nullable String ueidPart() {
+        return String.join(";", this.clearType.name(), this.userUPID);
+    }
+
     public static enum ClearChatType {
         ALL,
         USER;

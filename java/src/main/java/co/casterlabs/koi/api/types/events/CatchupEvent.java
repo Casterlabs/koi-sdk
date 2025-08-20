@@ -4,6 +4,8 @@ import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.jetbrains.annotations.Nullable;
+
 import co.casterlabs.koi.api.GenericBuilder;
 import co.casterlabs.koi.api.types.KoiEvent;
 import co.casterlabs.koi.api.types.KoiEventType;
@@ -33,6 +35,11 @@ public class CatchupEvent extends KoiEvent {
     @Override
     public KoiEventType type() {
         return KoiEventType.CATCHUP;
+    }
+
+    @Override
+    protected @Nullable String ueidPart() {
+        return null;
     }
 
     public Builder toBuilder() {

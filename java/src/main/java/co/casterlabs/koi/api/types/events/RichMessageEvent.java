@@ -114,6 +114,11 @@ public class RichMessageEvent extends MessageMeta {
         return KoiEventType.RICH_MESSAGE;
     }
 
+    @Override
+    protected @Nullable String ueidPart() {
+        return this.metaId;
+    }
+
     /* -------------------- */
     /* -------------------- */
     /* -------------------- */

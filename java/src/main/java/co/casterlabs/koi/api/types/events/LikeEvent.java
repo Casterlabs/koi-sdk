@@ -30,6 +30,12 @@ public class LikeEvent extends KoiEvent {
         return KoiEventType.LIKE;
     }
 
+    @Override
+    protected @Nullable String ueidPart() {
+        String likerUpid = this.liker == null ? null : this.liker.UPID;
+        return String.join(";", likerUpid, String.valueOf(this.totalLikes));
+    }
+
     public Builder toBuilder() {
         return new Builder(this);
     }

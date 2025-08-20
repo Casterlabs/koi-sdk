@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.jetbrains.annotations.Nullable;
+
 import co.casterlabs.koi.api.GenericBuilder;
 import co.casterlabs.koi.api.GenericBuilder.BuilderDefault;
 import co.casterlabs.koi.api.types.KoiEvent;
@@ -30,6 +32,11 @@ public class ConnectionStateEvent extends KoiEvent {
         CONNECTED,
         DISCONNECTED,
         WAITING;
+    }
+
+    @Override
+    protected @Nullable String ueidPart() {
+        return null;
     }
 
     public Builder toBuilder() {

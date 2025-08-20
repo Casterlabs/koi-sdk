@@ -26,6 +26,7 @@ public class EmojiFragment extends ChatFragment {
 
     @SneakyThrows
     public Emoji.Variation variation() {
+        // Delay the deserialization.
         return Rson.DEFAULT.fromJson(this.variation, Emoji.Variation.class);
     }
 

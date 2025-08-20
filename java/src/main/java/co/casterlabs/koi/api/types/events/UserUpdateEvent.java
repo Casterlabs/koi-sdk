@@ -3,6 +3,8 @@ package co.casterlabs.koi.api.types.events;
 import java.lang.reflect.Field;
 import java.time.Instant;
 
+import org.jetbrains.annotations.Nullable;
+
 import co.casterlabs.koi.api.GenericBuilder;
 import co.casterlabs.koi.api.types.KoiEvent;
 import co.casterlabs.koi.api.types.KoiEventType;
@@ -45,6 +47,11 @@ public class UserUpdateEvent extends KoiEvent {
     @Override
     public KoiEventType type() {
         return KoiEventType.USER_UPDATE;
+    }
+
+    @Override
+    protected @Nullable String ueidPart() {
+        return null;
     }
 
     public Builder toBuilder() {

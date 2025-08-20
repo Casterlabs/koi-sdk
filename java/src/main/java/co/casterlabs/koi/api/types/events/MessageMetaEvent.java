@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
+
 import co.casterlabs.koi.api.GenericBuilder;
 import co.casterlabs.koi.api.types.KoiEventType;
 import co.casterlabs.koi.api.types.MessageMeta;
@@ -28,6 +30,11 @@ public class MessageMetaEvent extends MessageMeta {
     @Override
     public KoiEventType type() {
         return KoiEventType.META;
+    }
+
+    @Override
+    protected @Nullable String ueidPart() {
+        return null;
     }
 
     public Builder toBuilder() {

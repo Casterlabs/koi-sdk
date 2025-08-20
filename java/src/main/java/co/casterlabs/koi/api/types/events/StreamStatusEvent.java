@@ -95,6 +95,11 @@ public class StreamStatusEvent extends KoiRoomEvent {
         return KoiEventType.STREAM_STATUS;
     }
 
+    @Override
+    protected @Nullable String ueidPart() {
+        return null;
+    }
+
     public Builder toBuilder() {
         return new Builder(this);
     }

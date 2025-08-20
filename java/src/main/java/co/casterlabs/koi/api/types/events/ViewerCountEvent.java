@@ -2,6 +2,8 @@ package co.casterlabs.koi.api.types.events;
 
 import java.time.Instant;
 
+import org.jetbrains.annotations.Nullable;
+
 import co.casterlabs.koi.api.GenericBuilder;
 import co.casterlabs.koi.api.types.KoiEventType;
 import co.casterlabs.koi.api.types.KoiRoomEvent;
@@ -20,6 +22,11 @@ public class ViewerCountEvent extends KoiRoomEvent {
     @Override
     public KoiEventType type() {
         return KoiEventType.VIEWER_COUNT;
+    }
+
+    @Override
+    protected @Nullable String ueidPart() {
+        return null;
     }
 
     public Builder toBuilder() {

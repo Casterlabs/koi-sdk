@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
+
 import co.casterlabs.koi.api.GenericBuilder;
 import co.casterlabs.koi.api.types.KoiEventType;
 import co.casterlabs.koi.api.types.KoiRoomEvent;
@@ -27,6 +29,11 @@ public class ViewerListEvent extends KoiRoomEvent {
     @Override
     public KoiEventType type() {
         return KoiEventType.VIEWER_LIST;
+    }
+
+    @Override
+    protected @Nullable String ueidPart() {
+        return null;
     }
 
     public Builder toBuilder() {

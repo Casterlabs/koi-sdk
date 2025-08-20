@@ -8,6 +8,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.jetbrains.annotations.Nullable;
 
 import co.casterlabs.koi.api.GenericBuilder;
 import co.casterlabs.koi.api.GenericBuilder.BuilderDefault;
@@ -103,6 +106,12 @@ public class SubscriptionEvent extends KoiEvent {
     @Override
     public KoiEventType type() {
         return KoiEventType.SUBSCRIPTION;
+    }
+
+    @Override
+    protected @Nullable String ueidPart() {
+        String recipients = this.giftRecipients.stream().map((u) -> u.UPID).collect(Collectors.joining(";"));
+        return String.join(";", this.subscriber.UPID, recipients, this.subType.name(), this.subLevel.name());
     }
 
     public static enum SubscriptionType {

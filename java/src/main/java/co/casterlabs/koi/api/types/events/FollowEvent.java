@@ -2,6 +2,8 @@ package co.casterlabs.koi.api.types.events;
 
 import java.time.Instant;
 
+import org.jetbrains.annotations.Nullable;
+
 import co.casterlabs.koi.api.GenericBuilder;
 import co.casterlabs.koi.api.types.KoiEvent;
 import co.casterlabs.koi.api.types.KoiEventType;
@@ -24,6 +26,11 @@ public class FollowEvent extends KoiEvent {
     @Override
     public KoiEventType type() {
         return KoiEventType.FOLLOW;
+    }
+
+    @Override
+    protected @Nullable String ueidPart() {
+        return this.follower.UPID;
     }
 
     public Builder toBuilder() {
