@@ -343,6 +343,79 @@ public class User {
                 }
             }
 
+            if (this.get("link") == null) {
+                switch ((UserPlatform) this.get("platform")) {
+                    case CAFFEINE:
+                        this.put("link", String.format("https://caffeine.tv/%s", this.get("username")));
+                        break;
+
+                    case TWITCH:
+                        this.put("link", String.format("https://twitch.tv/%s", this.get("username")));
+                        break;
+
+                    case TROVO:
+                        this.put("link", String.format("https://trovo.live/%s", this.get("username")));
+                        break;
+
+                    case GLIMESH:
+                        this.put("link", String.format("https://glimesh.tv/%s", this.get("username")));
+                        break;
+
+                    case BRIME:
+                        this.put("link", String.format("https://brime.tv/%s", this.get("username")));
+                        break;
+
+                    case YOUTUBE:
+                        this.put("link", String.format("https://youtube.com/channel/%s", this.get("id")));
+                        break;
+
+                    case DLIVE:
+                        this.put("link", String.format("https://dlive.tv/%s", this.get("username")));
+                        break;
+
+                    case TIKTOK:
+                        this.put("link", String.format("https://tiktok.com/@%s", this.get("username")));
+                        break;
+
+                    case THETA:
+                        this.put("link", String.format("https://theta.tv/%s", this.get("username")));
+                        break;
+
+                    case KICK:
+                        this.put("link", String.format("https://kick.com/%s", this.get("username")));
+                        break;
+
+                    case YOUNOW:
+                        this.put("link", String.format("https://younow.com/%s", this.get("username")));
+                        break;
+
+                    case LIVESPACE:
+                        this.put("link", String.format("https://live.space/watch/%s", this.get("username")));
+                        break;
+
+                    case NOICE:
+                        this.put("link", String.format("https://noice.com/%s", this.get("username")));
+                        break;
+
+                    case X:
+                        this.put("link", String.format("https://x.com/%s", this.get("username")));
+                        break;
+
+                    case RUMBLE:
+                        this.put("link", String.format("https://rumble.com/c/%s", this.get("username")));
+                        break;
+
+                    case LOCO:
+                        this.put("link", String.format("https://loco.com/streamers/%s", this.get("username")));
+                        break;
+
+                    case CASTERLABS_SYSTEM:
+                    case CUSTOM_INTEGRATION:
+                        this.put("link", "https://casterlabs.co");
+                        break;
+                }
+            }
+
             return super.build();
         }
 
