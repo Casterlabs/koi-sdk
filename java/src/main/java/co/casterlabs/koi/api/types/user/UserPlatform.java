@@ -50,10 +50,7 @@ public enum UserPlatform {
         this.color = color;
         this.link = link;
 
-        this.systemProfile = SimpleProfile.builder()
-            .bothIds(this.name())
-            .platform(this)
-            .build();
+        this.systemProfile = SimpleProfile.of(this, this.name());
 
         this.systemUser = User.builder(this.systemProfile)
             .username(this.name())

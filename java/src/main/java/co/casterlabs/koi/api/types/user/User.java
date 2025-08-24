@@ -161,11 +161,7 @@ public class User {
     }
 
     public SimpleProfile toSimpleProfile() {
-        return SimpleProfile.builder()
-            .id(this.id)
-            .channelId(this.channelId)
-            .platform(this.platform)
-            .build();
+        return SimpleProfile.of(this.platform, this.id, this.channelId);
     }
 
     public Builder toBuilder() {
