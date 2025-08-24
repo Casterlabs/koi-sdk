@@ -20,8 +20,9 @@ import lombok.SneakyThrows;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @JsonClass(exposeAll = true, unsafeInstantiation = true)
 public class MessageId {
-    public final @NonNull SimpleProfile streamer;
     public final @NonNull SimpleProfile sender;
+
+    public final @NonNull RoomId roomId;
 
     /**
      * @implNote Not all platforms have an ID for a message. In that case, this will
@@ -30,12 +31,12 @@ public class MessageId {
     @JsonField("true_id")
     public final @NonNull String trueId;
 
-    public static MessageId of(@NonNull SimpleProfile streamer, @NonNull SimpleProfile sender, @NonNull String trueId) {
-        return new MessageId(streamer, sender, trueId);
+    public static MessageId of(@NonNull SimpleProfile sender, @NonNull RoomId roomId, @NonNull String trueId) {
+        return new MessageId(sender, roomId, trueId);
     }
 
-    public static MessageId random(@NonNull SimpleProfile streamer, @NonNull SimpleProfile sender) {
-        return of(streamer, sender, UUID.randomUUID().toString());
+    public static MessageId random(@NonNull SimpleProfile sender, @NonNull RoomId roomId) {
+        return of(sender, roomId, UUID.randomUUID().toString());
     }
 
     public String serialize() {

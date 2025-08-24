@@ -2,7 +2,6 @@ package co.casterlabs.koi.api.types.events;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.UUID;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -12,7 +11,7 @@ import co.casterlabs.koi.api.types.RoomId;
 import co.casterlabs.koi.api.types.events.rich.Attachment;
 import co.casterlabs.koi.api.types.events.rich.fragments.ChatFragment;
 import co.casterlabs.koi.api.types.user.SimpleProfile;
-import co.casterlabs.koi.api.types.user.User;
+import co.casterlabs.koi.api.types.user.UserPlatform;
 import co.casterlabs.rakurai.json.Rson;
 import co.casterlabs.rakurai.json.annotating.JsonClass;
 import lombok.EqualsAndHashCode;
@@ -35,21 +34,20 @@ public class PlatformMessageEvent extends RichMessageEvent {
 
     @SneakyThrows
     public static PlatformMessageEvent of(
+        @NonNull UserPlatform platform,
         @NonNull SimpleProfile streamer,
         @NonNull Instant timestamp,
-        @NonNull RoomId roomId,
-        @NonNull User sender,
         @NonNull List<ChatFragment> fragments,
         @NonNull List<Attachment> attachments,
         @Nullable String replyTarget
     ) {
-        RichMessageEvent base = RichMessageEvent.builder(
-            MessageId.of(streamer, sender.toSimpleProfile(), UUID.randomUUID().toString()),
-            roomId
-        )
+        RoomId roomId = RoomId.of(streamer, platform.link);
+        MessageId messageId = MessageId.random(platform.systemProfile, roomId);
+
+        RichMessageEvent base = RichMessageEvent.builder(messageId)
             .streamer(streamer)
+            .sender(platform.systemUser)
             .timestamp(timestamp)
-            .sender(sender)
             .fragments(fragments)
             .attachments(attachments)
             .replyTarget(replyTarget)

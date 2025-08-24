@@ -18,7 +18,6 @@ import co.casterlabs.koi.api.GenericBuilder.BuilderDefault;
 import co.casterlabs.koi.api.types.KoiEventType;
 import co.casterlabs.koi.api.types.MessageId;
 import co.casterlabs.koi.api.types.MessageMeta;
-import co.casterlabs.koi.api.types.RoomId;
 import co.casterlabs.koi.api.types.events.rich.Attachment;
 import co.casterlabs.koi.api.types.events.rich.Donation;
 import co.casterlabs.koi.api.types.events.rich.fragments.ChatFragment;
@@ -127,22 +126,22 @@ public class RichMessageEvent extends MessageMeta {
         return new Builder(this);
     }
 
-    public static Builder builder(@NonNull MessageId id, @NonNull RoomId roomId) {
-        return new Builder(id, roomId);
+    public static Builder builder(@NonNull MessageId id) {
+        return new Builder(id);
     }
 
     public static class Builder extends GenericBuilder<RichMessageEvent> {
 
-        protected Builder(@NonNull MessageId id, @NonNull RoomId roomId) {
+        protected Builder(@NonNull MessageId id) {
             super(RichMessageEvent.class);
             this.timestamp(Instant.now()); // Default.
             this.put("id", id.serialize());
             this.put("metaId", id.trueId);
-            this.put("roomId", roomId.serialize());
+            this.put("roomId", id.roomId.serialize());
         }
 
         protected Builder(RichMessageEvent existing) {
-            this(MessageId.deserialize(existing.id), RoomId.deserialize(existing.roomId));
+            this(MessageId.deserialize(existing.id));
             this.inherit(existing);
         }
 
