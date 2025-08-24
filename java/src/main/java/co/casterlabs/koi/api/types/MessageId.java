@@ -4,6 +4,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.UUID;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import co.casterlabs.koi.api.types.user.SimpleProfile;
 import co.casterlabs.rakurai.json.Rson;
 import co.casterlabs.rakurai.json.annotating.JsonClass;
@@ -16,7 +18,7 @@ import lombok.SneakyThrows;
 /**
  * Used internally to map replies and rooms and actions.
  */
-@Deprecated
+@Internal
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @JsonClass(exposeAll = true, unsafeInstantiation = true)
 public class MessageId {
@@ -39,6 +41,7 @@ public class MessageId {
         return of(sender, roomId, UUID.randomUUID().toString());
     }
 
+    @Deprecated
     public String serialize() {
         byte[] json = Rson.DEFAULT
             .toJson(this)
@@ -50,6 +53,7 @@ public class MessageId {
             .encodeToString(json);
     }
 
+    @Deprecated
     @SneakyThrows
     public static MessageId deserialize(String base64) {
         String json = new String(

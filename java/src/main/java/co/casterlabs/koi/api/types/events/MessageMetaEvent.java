@@ -20,7 +20,6 @@ import co.casterlabs.rakurai.json.annotating.JsonField;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
-@SuppressWarnings("deprecation")
 @EqualsAndHashCode(callSuper = true)
 @JsonClass(exposeAll = true, unsafeInstantiation = true)
 public class MessageMetaEvent extends MessageMeta {
@@ -45,6 +44,7 @@ public class MessageMetaEvent extends MessageMeta {
         return new Builder(trueId_AKA_metaId, roomId);
     }
 
+    @SuppressWarnings("deprecation")
     public static class Builder extends GenericBuilder<MessageMetaEvent> {
 
         protected Builder(@NonNull String trueId_AKA_metaId, @NonNull RoomId roomId) {

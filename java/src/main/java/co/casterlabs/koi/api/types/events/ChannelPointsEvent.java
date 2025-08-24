@@ -15,7 +15,6 @@ import co.casterlabs.rakurai.json.annotating.JsonClass;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
-@SuppressWarnings("deprecation")
 @EqualsAndHashCode(callSuper = true)
 @JsonClass(exposeAll = true, unsafeInstantiation = true)
 public class ChannelPointsEvent extends KoiRoomEvent {
@@ -41,6 +40,7 @@ public class ChannelPointsEvent extends KoiRoomEvent {
         return new Builder(roomId);
     }
 
+    @SuppressWarnings("deprecation")
     public static class Builder extends GenericBuilder<ChannelPointsEvent> {
 
         protected Builder(@NonNull RoomId roomId) {

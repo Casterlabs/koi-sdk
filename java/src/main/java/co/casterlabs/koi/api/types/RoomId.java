@@ -3,6 +3,7 @@ package co.casterlabs.koi.api.types;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.Nullable;
 
 import co.casterlabs.koi.api.types.user.SimpleProfile;
@@ -15,9 +16,9 @@ import lombok.NonNull;
 import lombok.SneakyThrows;
 
 /**
- * Used internally to map rooms and connections.
+ * Used internally to map replies and rooms and actions.
  */
-@Deprecated
+@Internal
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @JsonClass(exposeAll = true, unsafeInstantiation = true)
 public class RoomId {
@@ -46,6 +47,7 @@ public class RoomId {
         return of(streamer, streamer.channelId, link, null);
     }
 
+    @Deprecated
     public String serialize() {
         byte[] json = Rson.DEFAULT
             .toJson(this)
@@ -57,6 +59,7 @@ public class RoomId {
             .encodeToString(json);
     }
 
+    @Deprecated
     @SneakyThrows
     public static RoomId deserialize(String base64) {
         String json = new String(

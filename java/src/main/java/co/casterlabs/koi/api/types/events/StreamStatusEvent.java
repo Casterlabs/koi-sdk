@@ -23,7 +23,6 @@ import co.casterlabs.rakurai.json.annotating.JsonField;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
-@SuppressWarnings("deprecation")
 @EqualsAndHashCode(callSuper = true)
 @JsonClass(exposeAll = true, unsafeInstantiation = true)
 public class StreamStatusEvent extends KoiRoomEvent {
@@ -108,6 +107,7 @@ public class StreamStatusEvent extends KoiRoomEvent {
         return new Builder(roomId);
     }
 
+    @SuppressWarnings("deprecation")
     public static class Builder extends GenericBuilder<StreamStatusEvent> {
 
         protected Builder(@NonNull RoomId roomId) {

@@ -41,7 +41,6 @@ import co.casterlabs.rakurai.json.serialization.JsonParseException;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
-@SuppressWarnings("deprecation")
 @EqualsAndHashCode(callSuper = true)
 @JsonClass(exposeAll = true, unsafeInstantiation = true)
 public class RichMessageEvent extends MessageMeta {
@@ -130,6 +129,7 @@ public class RichMessageEvent extends MessageMeta {
         return new Builder(id);
     }
 
+    @SuppressWarnings("deprecation")
     public static class Builder extends GenericBuilder<RichMessageEvent> {
 
         protected Builder(@NonNull MessageId id) {
