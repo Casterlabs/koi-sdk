@@ -27,7 +27,6 @@ import co.casterlabs.rakurai.json.annotating.JsonField;
 import co.casterlabs.rakurai.json.annotating.JsonSerializationMethod;
 import co.casterlabs.rakurai.json.element.JsonElement;
 import co.casterlabs.rakurai.json.serialization.JsonParseException;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
@@ -96,7 +95,7 @@ public class User {
     public @NonNull Long subscriberCount;
 
     @BuilderDefault("[]")
-    public final @NonNull List<UserRoles> roles = null;
+    public final @NonNull List<UserRole> roles = null;
 
     @BuilderDefault("[]")
     public final @NonNull @JsonExclude List<UserBadge> badges = null;
@@ -131,28 +130,6 @@ public class User {
                 .map((b) -> b.imageLink)
                 .collect(Collectors.toList())
         );
-    }
-
-    public static enum UserRoles {
-        BROADCASTER,
-        SUBSCRIBER,
-        FOLLOWER,
-        MODERATOR,
-        STAFF,
-        VIP,
-        OG;
-    }
-
-    @AllArgsConstructor(staticName = "of")
-    @EqualsAndHashCode()
-    @JsonClass(exposeAll = true, unsafeInstantiation = true)
-    public static class UserBadge {
-        public final @NonNull String name;
-
-        @JsonField("image_link")
-        public final @NonNull String imageLink;
-
-        public final @Nullable String provider; // For external providers.
     }
 
     @Override
@@ -229,12 +206,12 @@ public class User {
             return this;
         }
 
-        public Builder roles(@NonNull UserRoles... values) {
+        public Builder roles(@NonNull UserRole... values) {
             return this.roles(Arrays.asList(values));
         }
 
-        public Builder roles(@NonNull Collection<UserRoles> values) {
-            for (UserRoles v : values) {
+        public Builder roles(@NonNull Collection<UserRole> values) {
+            for (UserRole v : values) {
                 if (v == null) {
                     throw new NullPointerException("Element in array/list cannot be null.");
                 }
@@ -244,8 +221,8 @@ public class User {
             return this;
         }
 
-        public Builder appendRole(@NonNull UserRoles value) {
-            Set<UserRoles> set = new HashSet<>(this.getOrDefault("roles", Collections.emptyList())); // Make modifiable.
+        public Builder appendRole(@NonNull UserRole value) {
+            Set<UserRole> set = new HashSet<>(this.getOrDefault("roles", Collections.emptyList())); // Make modifiable.
             set.add(value); // Append.
 
             this.roles(set);
