@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -217,15 +216,15 @@ public class User {
                 }
             }
 
-            this.put("roles", Collections.unmodifiableSet(new HashSet<>(values)));
+            this.put("roles", Collections.unmodifiableList(Arrays.asList(values)));
             return this;
         }
 
         public Builder appendRole(@NonNull UserRole value) {
-            Set<UserRole> set = new HashSet<>(this.getOrDefault("roles", Collections.emptyList())); // Make modifiable.
-            set.add(value); // Append.
+            List<UserRole> list = new LinkedList<>(this.getOrDefault("roles", Collections.emptyList())); // Make modifiable.
+            list.add(value); // Append.
 
-            this.roles(set);
+            this.roles(list);
             return this;
         }
 
@@ -240,15 +239,15 @@ public class User {
                 }
             }
 
-            this.put("badges", Collections.unmodifiableSet(new HashSet<>(values)));
+            this.put("badges", Collections.unmodifiableList(Arrays.asList(values)));
             return this;
         }
 
         public Builder appendBadge(@NonNull UserBadge value) {
-            Set<UserBadge> set = new HashSet<>(this.getOrDefault("badges", Collections.emptyList())); // Make modifiable.
-            set.add(value); // Append.
+            List<UserBadge> list = new LinkedList<>(this.getOrDefault("badges", Collections.emptyList())); // Make modifiable.
+            list.add(value); // Append.
 
-            this.badges(set);
+            this.badges(list);
             return this;
         }
 
