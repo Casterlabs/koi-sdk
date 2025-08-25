@@ -216,7 +216,7 @@ public class User {
                 }
             }
 
-            this.put("roles", Collections.unmodifiableList(Arrays.asList(values)));
+            this.put("roles", Collections.unmodifiableList(new ArrayList<>(values)));
             return this;
         }
 
@@ -239,7 +239,7 @@ public class User {
                 }
             }
 
-            this.put("badges", Collections.unmodifiableList(Arrays.asList(values)));
+            this.put("badges", Collections.unmodifiableList(new ArrayList<>(values)));
             return this;
         }
 
