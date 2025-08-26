@@ -163,4 +163,16 @@ public enum KoiStreamLanguage {
         return this.str;
     }
 
+    public static KoiStreamLanguage find(String lang) {
+        if (lang == null) return OTHER;
+
+        for (KoiStreamLanguage enu : values()) {
+            if (enu.name().equalsIgnoreCase(lang) || enu.str.equalsIgnoreCase(lang)) {
+                return enu;
+            }
+        }
+
+        return OTHER;
+    }
+
 }
