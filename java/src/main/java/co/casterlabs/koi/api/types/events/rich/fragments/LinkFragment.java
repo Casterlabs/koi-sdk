@@ -32,7 +32,8 @@ public class LinkFragment extends ChatFragment {
         return new LinkFragment(
             url,
             String.format(
-                "<a href='%s' target='_blank' data-rich-type='link'>%s</a>",
+                "<a href='%s' title='%s' target='_blank' data-rich-type='link'>%s</a>",
+                WebUtil.escapeHtml(url),
                 WebUtil.escapeHtml(url),
                 WebUtil.escapeHtml(urlStringFriendly)
             )
