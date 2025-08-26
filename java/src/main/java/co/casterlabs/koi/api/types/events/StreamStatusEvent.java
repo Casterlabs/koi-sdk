@@ -133,12 +133,12 @@ public class StreamStatusEvent extends KoiEvent {
             return this;
         }
 
-        public Builder title(@NonNull String value) {
+        public Builder title(@Nullable String value) {
             this.put("title", value);
             return this;
         }
 
-        public Builder startTime(@NonNull Instant value) {
+        public Builder startTime(@Nullable Instant value) {
             this.put("startTime", value);
             return this;
         }
@@ -167,22 +167,22 @@ public class StreamStatusEvent extends KoiEvent {
             return this;
         }
 
-        public Builder category(@NonNull String value) {
+        public Builder category(@Nullable String value) {
             this.put("category", value);
             return this;
         }
 
-        public Builder contentRating(@NonNull KoiStreamContentRating value) {
+        public Builder contentRating(@Nullable KoiStreamContentRating value) {
             this.put("contentRating", value);
             return this;
         }
 
-        public Builder thumbnailUrl(@NonNull String value) {
+        public Builder thumbnailUrl(@Nullable String value) {
             this.put("thumbnailUrl", value);
             return this;
         }
 
-        public Builder language(@NonNull KoiStreamLanguage value) {
+        public Builder language(@Nullable KoiStreamLanguage value) {
             this.put("language", value);
             return this;
         }
