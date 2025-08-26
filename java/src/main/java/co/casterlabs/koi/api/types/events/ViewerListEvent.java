@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -75,7 +74,7 @@ public class ViewerListEvent extends KoiEvent {
                 }
             }
 
-            this.put("viewers", Collections.unmodifiableSet(new HashSet<>(values)));
+            this.put("viewers", Collections.unmodifiableList(new LinkedList<>(values)));
             return this;
         }
 
