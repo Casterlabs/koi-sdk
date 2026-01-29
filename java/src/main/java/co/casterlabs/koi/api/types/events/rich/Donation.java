@@ -42,6 +42,8 @@ public class Donation {
 
         TIKTOK_COINS,
 
+        KICK_KICKS,
+
         ;
     }
 }
